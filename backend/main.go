@@ -47,7 +47,11 @@ func main() {
 
 		time.Sleep(time.Millisecond*1000)
 		rpio.SetDutyCycleWithPwmMode(pwm1,50,2000,true)
+		time.Sleep(time.Millisecond*1000)
 		log.Debug("pwm cycle")
+
+
+
 	}
  rpio.Close()
  log.Debug("end")
