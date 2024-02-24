@@ -41,9 +41,11 @@ func main() {
 		// res := pin.Read()
 
 		// log.Debug(fmt.Sprintf("pin is %v", res))
-		pwm1.DutyCycle(150, 2000)
+		rpio.SetDutyCycleWithPwmMode(pwm1,150,2000,true)
+
 		time.Sleep(time.Millisecond*1000)
-		pwm1.DutyCycle(50, 2000)
+		rpio.SetDutyCycleWithPwmMode(pwm1,50,2000,true)
+
 	}
 	defer rpio.Close()
 }
