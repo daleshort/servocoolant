@@ -46,6 +46,14 @@ func main() {
 	pwm1.Freq(100000)
 	rpio.StartPwm()
 
+
+	pwm2 := rpio.Pin(12)
+	rpio.PinMode(pwm2,rpio.Pwm)
+	rpio.SetDutyCycleWithPwmMode(pwm2,150,2000,true)
+	pwm1.DutyCycle(150, 2000)
+	pwm1.Freq(100000)
+	rpio.StartPwm()
+
 	for i := 0; i < 10; i++ {
 		
 		res := pin.Read()
@@ -56,12 +64,16 @@ func main() {
 		rpio.StopPwm()
 		rpio.SetDutyCycleWithPwmMode(pwm1,150,2000,true)
 		pwm1.DutyCycle(150, 2000)
+		rpio.SetDutyCycleWithPwmMode(pwm2,150,2000,true)
+		pwm2.DutyCycle(150, 2000)
 		rpio.StartPwm()
 
 		time.Sleep(time.Millisecond*1000)
 		rpio.StopPwm()
 		rpio.SetDutyCycleWithPwmMode(pwm1,50,2000,true)
 		pwm1.DutyCycle(50, 2000)
+		rpio.SetDutyCycleWithPwmMode(pwm2,50,2000,true)
+		pwm2.DutyCycle(50, 2000)
 		rpio.StartPwm()
 
 
