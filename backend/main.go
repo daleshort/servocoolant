@@ -29,6 +29,8 @@ func main() {
 	//50hz cycle = .02 seconds per cycle = 2000 clock cycles
 	//100000 hz clock =  .00001 second per cycle
 
+	///home/dale/go/pkg/mod
+	
 	pwm1 := rpio.Pin(13)
 	rpio.PinMode(pwm1,rpio.Pwm)
 	rpio.SetDutyCycleWithPwmMode(pwm1,150,2000,true)
