@@ -63,7 +63,7 @@ func main() {
 
 		rpio.StopPwm()
 		pwm1.DutyCycle(150, 2000)
-		pwm2.DutyCycle(150, 2000)
+		pwm2.DutyCycle(50, 2000)
 	
 
 		rpio.StartPwm()
@@ -71,7 +71,7 @@ func main() {
 		time.Sleep(time.Millisecond*1000)
 		rpio.StopPwm()
 		pwm1.DutyCycle(50, 2000)
-		pwm2.DutyCycle(50, 2000)
+		pwm2.DutyCycle(150, 2000)
 
 		rpio.StartPwm()
 
