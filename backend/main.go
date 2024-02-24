@@ -13,7 +13,7 @@ func main() {
 	log.Info("Initializing Servo Coolant Nozzle Application ")
 	config := config.GetConfig(log)
 	fmt.Println(config.GetVersion())
-	rpio.Close()
+	
 	err := rpio.Open()
 
 	if err != nil {
