@@ -31,7 +31,7 @@ func main() {
 	res := pin.Read()
 
 	log.Debug(fmt.Sprintf("pin init i s %v", res))
-	log.Debug(fmt.Sprintf("pin pull  %v", pin.ReadPull()))
+	log.Debug(fmt.Sprintf("pin pull %v", pin.ReadPull()))
 
 	//500-2500μsec  pulse = .0005 seconds to .0025 = 50 cycles to 250 cycles
 	//50hz cycle = .02 seconds per cycle = 2000 clock cycles
