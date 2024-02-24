@@ -22,6 +22,8 @@ func main() {
 	}
 
 	pin :=rpio.Pin(14) 
+	rpio.PinMode(pin,rpio.Input)
+	rpio.PullMode(pin,rpio.PullDown)
 	pin.PullDown()
 	pin.Input()
 
