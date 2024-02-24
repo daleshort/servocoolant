@@ -26,10 +26,11 @@ func main() {
 	rpio.PinMode(pin,rpio.Input)
 	rpio.PullMode(pin,rpio.PullDown)
 	pin.PullDown()
+	pin.Input()
 
 	res := pin.Read()
 
-	log.Debug(fmt.Sprintf("pin init is %v", res))
+	log.Debug(fmt.Sprintf("pin init i s %v", res))
 	log.Debug(fmt.Sprintf("pin pull %v", pin.ReadPull()))
 
 	//500-2500μsec  pulse = .0005 seconds to .0025 = 50 cycles to 250 cycles
