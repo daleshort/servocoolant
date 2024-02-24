@@ -30,6 +30,8 @@ func main() {
 	//100000 hz clock =  .00001 second per cycle
 
 	pwm1 := rpio.Pin(13)
+	rpio.PinMode(pwm1,rpio.Pwm)
+	rpio.SetDutyCycleWithPwmMode(pwm1,150,2000,true)
 	pwm1.DutyCycle(150, 2000)
 	pwm1.Freq(100000)
 	rpio.StartPwm()
