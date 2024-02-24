@@ -21,7 +21,7 @@ func main() {
 		log.Error(fmt.Sprintf("error opening pin %v", err))
 	}
 
-	pin :=rpio.Pin(1) 
+	pin :=rpio.Pin(13) 
 	pin.PullDown()
 	rpio.PinMode(pin,rpio.Input)
 	rpio.PullMode(pin,rpio.PullDown)
@@ -39,12 +39,12 @@ func main() {
 
 	///home/dale/go/pkg/mod
 
-	pwm1 := rpio.Pin(13)
-	rpio.PinMode(pwm1,rpio.Pwm)
-	rpio.SetDutyCycleWithPwmMode(pwm1,150,2000,true)
-	pwm1.DutyCycle(150, 2000)
-	pwm1.Freq(100000)
-	rpio.StartPwm()
+	// pwm1 := rpio.Pin(13)
+	// rpio.PinMode(pwm1,rpio.Pwm)
+	// rpio.SetDutyCycleWithPwmMode(pwm1,150,2000,true)
+	// pwm1.DutyCycle(150, 2000)
+	// pwm1.Freq(100000)
+	// rpio.StartPwm()
 
 	for i := 0; i < 10; i++ {
 		
@@ -53,16 +53,16 @@ func main() {
 		log.Debug(fmt.Sprintf("pin is %v", res))
 
 
-		rpio.StopPwm()
-		rpio.SetDutyCycleWithPwmMode(pwm1,150,2000,true)
-		pwm1.DutyCycle(150, 2000)
-		rpio.StartPwm()
+		// rpio.StopPwm()
+		// rpio.SetDutyCycleWithPwmMode(pwm1,150,2000,true)
+		// pwm1.DutyCycle(150, 2000)
+		// rpio.StartPwm()
 
-		time.Sleep(time.Millisecond*1000)
-		rpio.StopPwm()
-		rpio.SetDutyCycleWithPwmMode(pwm1,50,2000,true)
-		pwm1.DutyCycle(50, 2000)
-		rpio.StartPwm()
+		// time.Sleep(time.Millisecond*1000)
+		// rpio.StopPwm()
+		// rpio.SetDutyCycleWithPwmMode(pwm1,50,2000,true)
+		// pwm1.DutyCycle(50, 2000)
+		// rpio.StartPwm()
 
 
 		time.Sleep(time.Millisecond*1000)
