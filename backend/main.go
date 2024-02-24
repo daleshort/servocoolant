@@ -25,6 +25,10 @@ func main() {
 	pin.PullDown()
 	pin.Input()
 
+	res := pin.Read()
+
+	log.Debug(fmt.Sprintf("pin init is %v", res))
+
 	//500-2500μsec  pulse = .0005 seconds to .0025 = 50 cycles to 250 cycles
 	//50hz cycle = .02 seconds per cycle = 2000 clock cycles
 	//100000 hz clock =  .00001 second per cycle
@@ -40,11 +44,11 @@ func main() {
 
 	for i := 0; i < 10; i++ {
 		
-	
-
 		res := pin.Read()
 
 		log.Debug(fmt.Sprintf("pin is %v", res))
+
+
 		rpio.StopPwm()
 		rpio.SetDutyCycleWithPwmMode(pwm1,150,2000,true)
 		pwm1.DutyCycle(150, 2000)
