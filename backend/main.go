@@ -18,7 +18,7 @@ func main() {
 	err := rpio.Open()
 
 	if err != nil {
-		log.Error(fmt.Sprintf("error opening pin %v", err))
+		log.Error(fmt.Sprintf("error opening pin  %v", err))
 	}
 
 	pin :=rpio.Pin(18) 
