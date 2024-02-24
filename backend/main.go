@@ -22,8 +22,8 @@ func main() {
 	}
 
 	pin :=rpio.Pin(14) 
-	pin.Input()
 	pin.PullDown()
+	pin.Input()
 
 	//500-2500μsec  pulse = .0005 seconds to .0025 = 50 cycles to 250 cycles
 	//50hz cycle = .02 seconds per cycle = 2000 clock cycles
