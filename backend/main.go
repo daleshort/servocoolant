@@ -21,7 +21,7 @@ func main() {
 		log.Error(fmt.Sprintf("error opening pin %v", err))
 	}
 
-	pin :=rpio.Pin(1) 
+	pin :=rpio.Pin(13) 
 	pin.PullDown()
 	rpio.PinMode(pin,rpio.Input)
 	rpio.PullMode(pin,rpio.PullDown)
