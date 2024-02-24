@@ -6,6 +6,7 @@ import (
 	"github.com/stianeikeland/go-rpio/v4"
 	config "mechied.com/servocoolant/config"
 	slog "mechied.com/servocoolant/logger"
+	"time"
 )
 
 func main() {
@@ -38,7 +39,9 @@ func main() {
 		// res := pin.Read()
 
 		// log.Debug(fmt.Sprintf("pin is %v", res))
-		// time.Sleep(time.Millisecond*1000)
+		pwm1.DutyCycle(150, 2000)
+		time.Sleep(time.Millisecond*1000)
+		pwm1.DutyCycle(50, 2000)
 	}
 	defer rpio.Close()
 }
