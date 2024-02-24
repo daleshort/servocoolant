@@ -21,7 +21,7 @@ func main() {
 		log.Error(fmt.Sprintf("error opening pin %v", err))
 	}
 
-	pin :=rpio.Pin(6)  //BCM pin 13 is pin 33 on the actual physical pin headers
+	pin :=rpio.Pin(14) 
 	pin.Input()
 	pin.PullDown()
 
