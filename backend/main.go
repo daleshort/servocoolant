@@ -36,7 +36,9 @@ func main() {
 	pwm1.Freq(100000)
 	rpio.StartPwm()
 
-	for {
+	for i := 0; i < 10; i++ {
+		
+	
 
 		// res := pin.Read()
 
@@ -45,7 +47,8 @@ func main() {
 
 		time.Sleep(time.Millisecond*1000)
 		rpio.SetDutyCycleWithPwmMode(pwm1,50,2000,true)
-
+		log.Debug("pwm cycle")
 	}
-	defer rpio.Close()
+ rpio.Close()
+ log.Debug("end")
 }
