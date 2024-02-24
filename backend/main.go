@@ -9,7 +9,7 @@ import (
 
 func main() {
 	log := slog.GetLog()
-	log.Info("Initializing Servo Coolant Nozzle Application  ")
+	log.Info("Initializing Servo Coolant Nozzle Application")
 	config := config.GetConfig(log)
 	fmt.Println(config.GetVersion())
 
