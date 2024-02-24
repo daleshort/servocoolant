@@ -55,14 +55,12 @@ func main() {
 
 
 		rpio.StopPwm()
-		rpio.SetDutyCycleWithPwmMode(pwm1,150,2000,true)
 		pwm1.DutyCycle(150, 2000)
 
 		rpio.StartPwm()
 
 		time.Sleep(time.Millisecond*1000)
 		rpio.StopPwm()
-		rpio.SetDutyCycleWithPwmMode(pwm1,50,2000,true)
 		pwm1.DutyCycle(50, 2000)
 
 		rpio.StartPwm()
