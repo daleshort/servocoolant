@@ -22,10 +22,10 @@ func main() {
 	}
 
 	pin :=rpio.Pin(14) 
+	pin.PullDown()
 	rpio.PinMode(pin,rpio.Input)
 	rpio.PullMode(pin,rpio.PullDown)
 	pin.PullDown()
-	pin.Input()
 
 	res := pin.Read()
 
