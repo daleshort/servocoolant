@@ -13,7 +13,7 @@ type Config struct {
 }
 
 type tool struct {
-	length int `mapstructure:"length"`
+	Length int `mapstructure:"length"`
 }
 
 func GetConfig(log *log.Logger) *Config {
@@ -45,7 +45,7 @@ func (c *Config) init() {
 		c.log.Error("error unmarshalling tools")
 	}
 	for count, tool := range tools {
-		c.log.Info(fmt.Sprintf("found tool %v: length:%v", count, tool.length))
+		c.log.Info(fmt.Sprintf("found tool %v: length:%v", count, tool.Length))
 	}
 }
 
