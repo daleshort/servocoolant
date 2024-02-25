@@ -13,7 +13,7 @@ type Config struct {
 }
 
 type tool struct {
-	Length int `mapstructure:"length"`
+	Length float32 `mapstructure:"length"` //must be capitalized in struct for viper to unmarshall
 }
 
 func GetConfig(log *log.Logger) *Config {
@@ -38,17 +38,29 @@ func (c *Config) init() {
 		panic(fmt.Errorf("fatal error config file: %w", err))
 	}
 
-	var tools map[int]tool
-	err = c.Viper.UnmarshalKey("tools", &tools)
-
-	if err != nil {
-		c.log.Error("error unmarshalling tools")
-	}
-	for count, tool := range tools {
-		c.log.Info(fmt.Sprintf("found tool %v: length:%v", count, tool.Length))
-	}
 }
 
 func (c *Config) GetVersion() string {
 	return c.Viper.GetString("version")
+}
+
+func (c *Config) GetToolLength(toolNumber int) (*float32, error) {
+
+	var tools map[int]tool
+	err := c.Viper.UnmarshalKey("tools", &tools)
+
+	if err != nil {
+
+		c.log.Error(err.Error())
+		return nil, err
+	}
+
+	tool, ok := tools[toolNumber]
+	if ok {
+		return &tool.Length, nil
+	}
+	err = fmt.Errorf("tool %v not found", toolNumber)
+	c.log.Error(err)
+	return nil, err
+
 }

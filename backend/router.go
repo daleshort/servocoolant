@@ -7,12 +7,6 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-func (sc *ServoCoolant) Run() {
-	sc.RegisterEndpoints()
-
-	log.Fatal(http.ListenAndServe(":8080", sc.logRequest(http.DefaultServeMux)))
-	//sc.deviceManager.RunAngleTest()
-}
 
 func (sc *ServoCoolant) RegisterEndpoints() {
 	http.HandleFunc("/servo", sc.handlerServo)

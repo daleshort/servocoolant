@@ -13,6 +13,6 @@ devicemanager:
   servo2offset: 0 #when an angle is specified this is added to account for orientation of servo
 tools:
   12:
-    length: 10
+    length: 10.125
   2:
-    length: 20 
+    length: 20.35
