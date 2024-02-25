@@ -55,8 +55,8 @@ func (d *DeviceManager) init() {
    d.servo2.Init()
 }
 
-func (d *DeviceManager) RunTest() {
-
+func (d *DeviceManager) RunRangeTest() {
+	d.log.Debug("start range of motion test")
 	for i := 0; i <4; i++ {
 
 		res := d.sensePin.Read()
@@ -79,6 +79,11 @@ func (d *DeviceManager) RunTest() {
 
 	}
 
+	d.log.Debug("end range of motion test")
+}
+
+func (d *DeviceManager) RunAngleTest() {
+	d.log.Debug("start angle test")
 	for i := 0; i <4; i++ {
 
 		res := d.sensePin.Read()
@@ -86,17 +91,21 @@ func (d *DeviceManager) RunTest() {
 		d.log.Debug(fmt.Sprintf("pin is %v", res))
 
 		d.servo1.SetAngle(0)
+		d.log.Debug("angle 0")
 		
 
 		time.Sleep(time.Millisecond * 2000)
 
 		d.servo1.SetAngle(180)
-	
+		d.log.Debug("angle 180")
 		time.Sleep(time.Millisecond * 2000)
 
-		d.log.Debug("pwm cycle")
+	
+		d.servo1.SetAngle(90)
+		d.log.Debug("angle 90")
+		time.Sleep(time.Millisecond * 2000)
 
 	}
 
-	log.Debug("end")
+	d.log.Debug("end angle test")
 }
