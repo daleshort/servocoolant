@@ -2,23 +2,24 @@ package config
 
 import (
 	"fmt"
+
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 )
 
 type Config struct {
-	log *log.Logger
+	log   *log.Logger
 	Viper *viper.Viper
 }
 
-type tool struct{
+type tool struct {
 	length int
 }
 
 func GetConfig(log *log.Logger) *Config {
 
 	c := Config{
-		log: log,
+		log:   log,
 		Viper: viper.GetViper(),
 	}
 	c.init()
@@ -38,10 +39,13 @@ func (c *Config) init() {
 	}
 
 	var tools map[int]tool
-	err = c.Viper.UnmarshalKey("tools",&tools)
+	err = c.Viper.UnmarshalKey("tools", &tools)
 
 	if err != nil {
 		c.log.Error("error unmarshalling tools")
+	}
+	for count, tool := range tools {
+		c.log.Info(fmt.Sprintf("found tool %v: length:%v", count, tool.length))
 	}
 }
 
