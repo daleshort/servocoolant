@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func (sc *ServoCoolant) registerEndpoints() {
+func (sc *ServoCoolant) RegisterEndpoints() {
 	http.HandleFunc("/", sc.handler)
 	
 }

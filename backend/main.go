@@ -31,7 +31,7 @@ func main() {
 
 
 func (sc *ServoCoolant) Run (){
-	sc.registerEndpoints()
+	sc.RegisterEndpoints()
 	
     log.Fatal(http.ListenAndServe(":8080", nil))
 	//sc.deviceManager.RunAngleTest()
