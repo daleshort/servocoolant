@@ -25,7 +25,11 @@ func (sc *ServoCoolant) handler(w http.ResponseWriter, r *http.Request) {
 
 func (sc *ServoCoolant) logRequest(handler http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		sc.log.Debug(fmt.Sprintf("%s %s %s\n", r.RemoteAddr, r.Method, r.URL))
+		sc.log.WithFields(log.Fields{
+			"address": r.RemoteAddr,
+			"method":  r.Method,
+			"url":     r.URL,
+		}).Debug("http request")
 		handler.ServeHTTP(w, r)
 	})
 }
