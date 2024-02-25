@@ -24,12 +24,7 @@ func main() {
 
 	sc.deviceManager = devicemanager.GetDeviceManager(sc.log, sc.config)
 
-
 	sc.Run()
-	///home/dale/go/pkg/mod
-
-	//devicemanager.RunRangeTest()
-
 
 }
 
@@ -38,6 +33,6 @@ func main() {
 func (sc *ServoCoolant) Run (){
 	sc.registerEndpoints()
 	
-    go log.Fatal(http.ListenAndServe(":8080", nil))
-	sc.deviceManager.RunAngleTest()
+    log.Fatal(http.ListenAndServe(":8080", nil))
+	//sc.deviceManager.RunAngleTest()
 }
