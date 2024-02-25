@@ -37,11 +37,11 @@ func (d *DeviceManager) init() {
 	err := rpio.Open()
 
 	if err != nil {
-		log.Error(fmt.Sprintf("error opening pin %v", err))
+		d.log.Error(fmt.Sprintf("error opening pin %v", err))
 	}
 
 	if !d.config.Viper.IsSet("devicemanager.toolchangepin") {
-		log.Error("cannot find key devicemanager.toolchangepin")
+		d.log.Error("cannot find key devicemanager.toolchangepin")
 	}
 	pinToolChanger := d.config.Viper.GetInt("devicemanager.toolchangepin")
 
@@ -52,13 +52,13 @@ func (d *DeviceManager) init() {
 	d.sensePin.Input()
 
 	if !d.config.Viper.IsSet("devicemanager.servo1pin") {
-		log.Error("cannot find key devicemanager.servo1pin")
+		d.log.Error("cannot find key devicemanager.servo1pin")
 	}
 	servo1pin := d.config.Viper.GetInt("devicemanager.servo1pin")
 	d.servo1.Init(servo1pin)
 
 	if !d.config.Viper.IsSet("devicemanager.servo2pin") {
-		log.Error("cannot find key devicemanager.servo2pin")
+		d.log.Error("cannot find key devicemanager.servo2pin")
 	}
 	servo2pin := d.config.Viper.GetInt("devicemanager.servo2pin")
 	d.servo2.Init(servo2pin)
@@ -70,7 +70,7 @@ func (d *DeviceManager) RunTest() {
 
 		res := d.sensePin.Read()
 
-		log.Debug(fmt.Sprintf("pin is %v", res))
+		d.log.Debug(fmt.Sprintf("pin is %v", res))
 
 		d.servo1.SetDutyCycle(250, 2000)
 		d.servo2.SetDutyCycle(50, 2000)
@@ -78,13 +78,13 @@ func (d *DeviceManager) RunTest() {
 		time.Sleep(time.Millisecond * 1000)
 		res = d.sensePin.Read()
 
-		log.Debug(fmt.Sprintf("pin is %v", res))
+		d.log.Debug(fmt.Sprintf("pin is %v", res))
 		d.servo1.SetDutyCycle(50, 2000)
 		d.servo2.SetDutyCycle(250, 2000)
 
 		time.Sleep(time.Millisecond * 1000)
 
-		log.Debug("pwm cycle")
+		d.log.Debug("pwm cycle")
 
 	}
 	log.Debug("end")
