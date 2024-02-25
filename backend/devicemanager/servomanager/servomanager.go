@@ -23,6 +23,7 @@ type ServoManager struct {
 	cycleLength int
 	offset      int
 	travelRange int
+	Angle       int
 }
 
 func GetServoManager(log *logrus.Logger, config *config.Config, id int) *ServoManager {
@@ -92,6 +93,8 @@ func (s *ServoManager) Init() {
 	s.pin.Freq(s.config.Viper.GetInt("devicemanager.servo.clockfreq"))
 	rpio.StartPwm()
 
+	s.SetAngle(0)
+
 }
 
 func (s *ServoManager) SetDutyCycle(dutyLength int) {
@@ -117,14 +120,16 @@ func (s *ServoManager) SetAngle(angle int) {
 
 	if angle > s.travelRange-s.offset || angle < 0-s.offset {
 		s.log.Error(fmt.Sprintf("invalid angle specified: %v", angle))
+		return
 	}
 
+	s.Angle = angle
 	adjustedAngle := angle + s.offset
 
 	dutyRange := s.maxDuty - s.minDuty
 
-	anglePct := float32(adjustedAngle)/float32(s.travelRange)
-	dutyResult := s.minDuty + int(anglePct * float32(dutyRange))
+	anglePct := float32(adjustedAngle) / float32(s.travelRange)
+	dutyResult := s.minDuty + int(anglePct*float32(dutyRange))
 
 	s.SetDutyCycle(dutyResult)
 

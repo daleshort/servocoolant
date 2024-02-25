@@ -6,6 +6,7 @@ import (
 	config "mechied.com/servocoolant/config"
 	devicemanager "mechied.com/servocoolant/devicemanager"
 	slog "mechied.com/servocoolant/logger"
+	"net/http"
 )
 
 func main() {
@@ -20,4 +21,12 @@ func main() {
 
 	//devicemanager.RunRangeTest()
 	devicemanager.RunAngleTest()
+
+	http.HandleFunc("/", handler)
+    log.Fatal(http.ListenAndServe(":8080", nil))
+}
+
+
+func handler(w http.ResponseWriter, r *http.Request) {
+    fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
 }

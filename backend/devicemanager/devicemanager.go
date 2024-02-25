@@ -13,8 +13,8 @@ import (
 type DeviceManager struct {
 	log      *log.Logger
 	config   *config.Config
-	servo1   *servomanager.ServoManager
-	servo2   *servomanager.ServoManager
+	Servo1   *servomanager.ServoManager
+	Servo2   *servomanager.ServoManager
 	sensePin rpio.Pin
 }
 
@@ -23,8 +23,8 @@ func GetDeviceManager(log *log.Logger, config *config.Config) *DeviceManager {
 	d := DeviceManager{
 		log:    log,
 		config: config,
-		servo1: servomanager.GetServoManager(log, config,1),
-		servo2: servomanager.GetServoManager(log, config,2),
+		Servo1: servomanager.GetServoManager(log, config, 1),
+		Servo2: servomanager.GetServoManager(log, config, 2),
 	}
 	d.init()
 	return &d
@@ -51,27 +51,27 @@ func (d *DeviceManager) init() {
 	// rpio.PullMode(pin, rpio.PullDown)
 	d.sensePin.Input()
 
-	d.servo1.Init()
-   d.servo2.Init()
+	d.Servo1.Init()
+	d.Servo2.Init()
 }
 
 func (d *DeviceManager) RunRangeTest() {
 	d.log.Debug("start range of motion test")
-	for i := 0; i <4; i++ {
+	for i := 0; i < 4; i++ {
 
 		res := d.sensePin.Read()
 
 		d.log.Debug(fmt.Sprintf("pin is %v", res))
 
-		d.servo1.SetMinDuty()
-		d.servo2.SetMaxDuty()
+		d.Servo1.SetMinDuty()
+		d.Servo2.SetMaxDuty()
 
 		time.Sleep(time.Millisecond * 2000)
 		res = d.sensePin.Read()
 
 		d.log.Debug(fmt.Sprintf("pin is %v", res))
-		d.servo1.SetMaxDuty()
-		d.servo2.SetMinDuty()
+		d.Servo1.SetMaxDuty()
+		d.Servo2.SetMinDuty()
 
 		time.Sleep(time.Millisecond * 2000)
 
@@ -84,24 +84,22 @@ func (d *DeviceManager) RunRangeTest() {
 
 func (d *DeviceManager) RunAngleTest() {
 	d.log.Debug("start angle test")
-	for i := 0; i <4; i++ {
+	for i := 0; i < 4; i++ {
 
 		res := d.sensePin.Read()
 
 		d.log.Debug(fmt.Sprintf("pin is %v", res))
 
-		d.servo1.SetAngle(0)
+		d.Servo1.SetAngle(0)
 		d.log.Debug("angle 0")
-		
 
 		time.Sleep(time.Millisecond * 2000)
 
-		d.servo1.SetAngle(180)
+		d.Servo1.SetAngle(180)
 		d.log.Debug("angle 180")
 		time.Sleep(time.Millisecond * 2000)
 
-	
-		d.servo1.SetAngle(90)
+		d.Servo1.SetAngle(90)
 		d.log.Debug("angle 90")
 		time.Sleep(time.Millisecond * 2000)
 
