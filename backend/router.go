@@ -5,11 +5,7 @@ import (
 	"net/http"
 
 	log "github.com/sirupsen/logrus"
-	config "mechied.com/servocoolant/config"
-	devicemanager "mechied.com/servocoolant/devicemanager"
 )
-
-
 
 func (sc *ServoCoolant) Run() {
 	sc.RegisterEndpoints()

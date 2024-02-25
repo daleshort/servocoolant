@@ -12,6 +12,7 @@ type ServoCoolant struct {
 	deviceManager *devicemanager.DeviceManager
 }
 
+
 func main() {
 	sc := ServoCoolant{}
 
