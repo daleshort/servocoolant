@@ -13,7 +13,7 @@ type Config struct {
 }
 
 type tool struct {
-	length int
+	length int `mapstructure:"length"`
 }
 
 func GetConfig(log *log.Logger) *Config {
