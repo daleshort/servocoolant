@@ -78,5 +78,25 @@ func (d *DeviceManager) RunTest() {
 		d.log.Debug("pwm cycle")
 
 	}
+
+	for i := 0; i <4; i++ {
+
+		res := d.sensePin.Read()
+
+		d.log.Debug(fmt.Sprintf("pin is %v", res))
+
+		d.servo1.SetAngle(0)
+		
+
+		time.Sleep(time.Millisecond * 2000)
+
+		d.servo1.SetAngle(180)
+	
+		time.Sleep(time.Millisecond * 2000)
+
+		d.log.Debug("pwm cycle")
+
+	}
+
 	log.Debug("end")
 }

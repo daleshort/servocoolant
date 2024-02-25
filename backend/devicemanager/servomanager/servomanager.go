@@ -108,6 +108,24 @@ func (s *ServoManager) SetMaxDuty() {
 	s.SetDutyCycle(s.maxDuty)
 }
 
-func (s *ServoManager) SetAngle() {
+func (s *ServoManager) SetAngle(angle int) {
+
+	// servo has 0 to 270 degree range
+	// servo is tilted back 15 degrees
+	// real world range is -15 degrees to 255 degrees
+	// offset is set to 15 so if i specify 0 degrees, servo actually goes an extra 15 degrees so it looks like 0
+
+	if angle > s.travelRange-s.offset || angle < 0-s.offset {
+		s.log.Error(fmt.Sprintf("invalid angle specified: %v", angle))
+	}
+
+	adjustedAngle := angle + s.offset
+
+	dutyRange := s.maxDuty - s.minDuty
+
+	anglePct := float32(adjustedAngle)/float32(s.travelRange)
+	dutyResult := s.minDuty + int(anglePct * float32(dutyRange))
+
+	s.SetDutyCycle(dutyResult)
 
 }
