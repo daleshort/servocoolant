@@ -75,14 +75,14 @@ func (d *DeviceManager) RunTest() {
 		d.servo1.SetMinDuty()
 		d.servo2.SetMaxDuty()
 
-		time.Sleep(time.Millisecond * 1000)
+		time.Sleep(time.Millisecond * 2000)
 		res = d.sensePin.Read()
 
 		d.log.Debug(fmt.Sprintf("pin is %v", res))
 		d.servo1.SetMaxDuty()
 		d.servo2.SetMinDuty()
 
-		time.Sleep(time.Millisecond * 1000)
+		time.Sleep(time.Millisecond * 2000)
 
 		d.log.Debug("pwm cycle")
 
