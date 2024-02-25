@@ -9,11 +9,7 @@ import (
 	devicemanager "mechied.com/servocoolant/devicemanager"
 )
 
-type ServoCoolant struct {
-	log           *log.Logger
-	config        *config.Config
-	deviceManager *devicemanager.DeviceManager
-}
+
 
 func (sc *ServoCoolant) Run() {
 	sc.RegisterEndpoints()

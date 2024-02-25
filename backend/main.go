@@ -6,6 +6,11 @@ import (
 	devicemanager "mechied.com/servocoolant/devicemanager"
 	slog "mechied.com/servocoolant/logger"
 )
+type ServoCoolant struct {
+	log           *log.Logger
+	config        *config.Config
+	deviceManager *devicemanager.DeviceManager
+}
 
 func main() {
 	sc := ServoCoolant{}
