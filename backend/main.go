@@ -1,32 +1,43 @@
 package main
 
 import (
-	"fmt"
 
+	"net/http"
 	config "mechied.com/servocoolant/config"
 	devicemanager "mechied.com/servocoolant/devicemanager"
 	slog "mechied.com/servocoolant/logger"
-	"net/http"
+	log "github.com/sirupsen/logrus"
 )
 
+type ServoCoolant struct{
+	log      *log.Logger
+	config   *config.Config
+	deviceManager *devicemanager.DeviceManager
+}
+
 func main() {
-	log := slog.GetLog()
+	sc := ServoCoolant{}
+
+	sc.log= slog.GetLog()
 	log.Info("Initializing Servo Coolant Nozzle Application")
-	config := config.GetConfig(log)
-	fmt.Println(config.GetVersion())
-	devicemanager := devicemanager.GetDeviceManager(log, config)
+	sc.config = config.GetConfig(sc.log)
+
+	sc.deviceManager = devicemanager.GetDeviceManager(sc.log, sc.config)
 
 
+	sc.Run()
 	///home/dale/go/pkg/mod
 
 	//devicemanager.RunRangeTest()
-	devicemanager.RunAngleTest()
 
-	http.HandleFunc("/", handler)
-    log.Fatal(http.ListenAndServe(":8080", nil))
+
 }
 
 
-func handler(w http.ResponseWriter, r *http.Request) {
-    fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
+
+func (sc *ServoCoolant) Run (){
+	sc.registerEndpoints()
+	
+    go log.Fatal(http.ListenAndServe(":8080", nil))
+	sc.deviceManager.RunAngleTest()
 }
