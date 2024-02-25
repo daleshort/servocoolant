@@ -15,11 +15,12 @@ func (sc *ServoCoolant) Run() {
 }
 
 func (sc *ServoCoolant) RegisterEndpoints() {
-	http.HandleFunc("/", sc.handler)
+	http.HandleFunc("/servo", sc.handlerServo)
+	http.HandleFunc("/", sc.handlerTest)
 
 }
 
-func (sc *ServoCoolant) handler(w http.ResponseWriter, r *http.Request) {
+func (sc *ServoCoolant) handlerTest(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Hi there, I lo ve %s!", r.URL.Path[1:])
 }
 
