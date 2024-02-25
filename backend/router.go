@@ -20,5 +20,5 @@ func (sc *ServoCoolant) RegisterEndpoints() {
 }
 
 func (sc *ServoCoolant) handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
+	fmt.Fprintf(w, "Hi there, I lo ve %s!", r.URL.Path[1:])
 }
