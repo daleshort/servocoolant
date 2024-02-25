@@ -57,19 +57,19 @@ func main() {
 		log.Debug(fmt.Sprintf("pin is %v", res))
 
 
-		rpio.StopPwm()
+	//	rpio.StopPwm()
 		pwm1.DutyCycle(250, 2000)
 		pwm2.DutyCycle(50, 2000)
 	
 
-		rpio.StartPwm()
+	//	rpio.StartPwm()
 
 		time.Sleep(time.Millisecond*1000)
-		rpio.StopPwm()
+	//	rpio.StopPwm()
 		pwm1.DutyCycle(50, 2000)
 		pwm2.DutyCycle(250, 2000)
 
-		rpio.StartPwm()
+	//	rpio.StartPwm()
 
 
 		time.Sleep(time.Millisecond*1000)
