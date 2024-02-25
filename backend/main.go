@@ -18,6 +18,6 @@ func main() {
 
 	///home/dale/go/pkg/mod
 
-	devicemanager.RunRangeTest()
+	//devicemanager.RunRangeTest()
 	devicemanager.RunAngleTest()
 }
