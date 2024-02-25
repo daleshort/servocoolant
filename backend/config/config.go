@@ -8,23 +8,25 @@ import (
 
 type Config struct {
 	log *log.Logger
+	Viper *viper.Viper
 }
 
 func GetConfig(log *log.Logger) *Config {
 
 	c := Config{
 		log: log,
+		Viper: viper.GetViper(),
 	}
 	c.init()
 	return &c
 }
 
 func (c *Config) init() {
-	c.log.Info("Initializing Config")
-	viper.SetConfigName("servocoolant")
-	viper.SetConfigType("yaml")
-	viper.AddConfigPath(".")
-	viper.WatchConfig()
+	c.log.Info("initializing config")
+	c.Viper.SetConfigName("servocoolant")
+	c.Viper.SetConfigType("yaml")
+	c.Viper.AddConfigPath(".")
+	c.Viper.WatchConfig()
 
 	err := viper.ReadInConfig()
 	if err != nil {
@@ -33,5 +35,5 @@ func (c *Config) init() {
 }
 
 func (c *Config) GetVersion() string {
-	return viper.GetString("version")
+	return c.Viper.GetString("version")
 }
