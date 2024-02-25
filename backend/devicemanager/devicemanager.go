@@ -23,8 +23,8 @@ func GetDeviceManager(log *log.Logger, config *config.Config) *DeviceManager {
 	d := DeviceManager{
 		log:    log,
 		config: config,
-		servo1: servomanager.GetServoManager(log),
-		servo2: servomanager.GetServoManager(log),
+		servo1: servomanager.GetServoManager(log, config),
+		servo2: servomanager.GetServoManager(log, config),
 	}
 	d.init()
 	return &d
@@ -66,21 +66,21 @@ func (d *DeviceManager) init() {
 
 func (d *DeviceManager) RunTest() {
 
-	for i := 0; i < 10; i++ {
+	for i := 0; i <4; i++ {
 
 		res := d.sensePin.Read()
 
 		d.log.Debug(fmt.Sprintf("pin is %v", res))
 
-		d.servo1.SetDutyCycle(250, 2000)
-		d.servo2.SetDutyCycle(50, 2000)
+		d.servo1.SetMinDuty()
+		d.servo2.SetMaxDuty()
 
 		time.Sleep(time.Millisecond * 1000)
 		res = d.sensePin.Read()
 
 		d.log.Debug(fmt.Sprintf("pin is %v", res))
-		d.servo1.SetDutyCycle(50, 2000)
-		d.servo2.SetDutyCycle(250, 2000)
+		d.servo1.SetMaxDuty()
+		d.servo2.SetMinDuty()
 
 		time.Sleep(time.Millisecond * 1000)
 

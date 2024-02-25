@@ -3,3 +3,8 @@ devicemanager:
   toolchangepin: 13
   servo1pin: 18
   servo2pin: 19
+  servo: 
+    clockfreq: 200000
+    minduty: 100
+    maxduty: 500
+    cyclelength: 4000
