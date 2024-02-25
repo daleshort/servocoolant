@@ -62,5 +62,10 @@ func (c *Config) GetToolLength(toolNumber int) (*float32, error) {
 	err = fmt.Errorf("tool %v not found", toolNumber)
 	c.log.Error(err)
 	return nil, err
+}
 
+func (c *Config) SetToolLength(toolNumber int, length float32) {
+
+	c.Viper.Set(fmt.Sprintf("tool.%v.length", toolNumber), length)
+	c.Viper.WriteConfig()
 }
