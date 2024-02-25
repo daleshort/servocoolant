@@ -1,10 +1,13 @@
 version: "1"
 devicemanager:
-  toolchangepin: 13
-  servo1pin: 18
+  toolchangepin: 13 #pin sensing tool changer movement (BCM pin #)
+  servo1pin: 18 #pwm controling servo  (BCM pin #)
   servo2pin: 19
   servo: 
-    clockfreq: 200000
-    minduty: 100
-    maxduty: 500
-    cyclelength: 4000
+    clockfreq: 200000 #pwm clock frequency
+    minduty: 100 #how many clock cycles represent min servo travel
+    maxduty: 500 #how many clock cycles represent max servo travel
+    travelrange: 265 #how many degres of travel are between minduty and max duty
+    cyclelength: 4000 #how many clock cycles to a servo clock period
+  servo1offset: 20 #when an angle is specified this is added to account for orientation of servo
+  servo2offset: 20 #when an angle is specified this is added to account for orientation of servo

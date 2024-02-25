@@ -23,8 +23,8 @@ func GetDeviceManager(log *log.Logger, config *config.Config) *DeviceManager {
 	d := DeviceManager{
 		log:    log,
 		config: config,
-		servo1: servomanager.GetServoManager(log, config),
-		servo2: servomanager.GetServoManager(log, config),
+		servo1: servomanager.GetServoManager(log, config,1),
+		servo2: servomanager.GetServoManager(log, config,2),
 	}
 	d.init()
 	return &d
@@ -51,17 +51,8 @@ func (d *DeviceManager) init() {
 	// rpio.PullMode(pin, rpio.PullDown)
 	d.sensePin.Input()
 
-	if !d.config.Viper.IsSet("devicemanager.servo1pin") {
-		d.log.Error("cannot find key devicemanager.servo1pin")
-	}
-	servo1pin := d.config.Viper.GetInt("devicemanager.servo1pin")
-	d.servo1.Init(servo1pin)
-
-	if !d.config.Viper.IsSet("devicemanager.servo2pin") {
-		d.log.Error("cannot find key devicemanager.servo2pin")
-	}
-	servo2pin := d.config.Viper.GetInt("devicemanager.servo2pin")
-	d.servo2.Init(servo2pin)
+	d.servo1.Init()
+   d.servo2.Init()
 }
 
 func (d *DeviceManager) RunTest() {
