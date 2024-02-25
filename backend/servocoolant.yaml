@@ -11,3 +11,8 @@ devicemanager:
     cyclelength: 4000 #how many clock cycles to a servo clock period
   servo1offset: 0 #when an angle is specified this is added to account for orientation of servo
   servo2offset: 0 #when an angle is specified this is added to account for orientation of servo
+tools:
+  1:
+    length: 10
+  2:
+    length: 20 

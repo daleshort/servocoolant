@@ -11,6 +11,10 @@ type Config struct {
 	Viper *viper.Viper
 }
 
+type tool struct{
+	length int
+}
+
 func GetConfig(log *log.Logger) *Config {
 
 	c := Config{
@@ -31,6 +35,13 @@ func (c *Config) init() {
 	err := viper.ReadInConfig()
 	if err != nil {
 		panic(fmt.Errorf("fatal error config file: %w", err))
+	}
+
+	var tools map[int]tool
+	err = c.Viper.UnmarshalKey("tools",&tools)
+
+	if err != nil {
+		c.log.Error("error unmarshalling tools")
 	}
 }
 
