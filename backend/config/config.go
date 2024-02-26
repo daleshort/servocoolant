@@ -45,6 +45,7 @@ func (c *Config) GetVersion() string {
 }
 
 func (c *Config) GetAllToolLengths() (map[int]Tool, error) {
+	c.Viper.ReadInConfig()
 	var tools map[int]Tool
 	err := c.Viper.UnmarshalKey("tools", &tools)
 
