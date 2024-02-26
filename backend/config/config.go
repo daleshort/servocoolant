@@ -31,12 +31,12 @@ func (c *Config) init() {
 	c.Viper.SetConfigName("servocoolant")
 	c.Viper.SetConfigType("yaml")
 	c.Viper.AddConfigPath(".")
-	
+	c.Viper.WatchConfig()
+
 	err := viper.ReadInConfig()
 	if err != nil {
 		panic(fmt.Errorf("fatal error config file: %w", err))
 	}
-	c.Viper.WatchConfig()
 
 }
 
@@ -44,25 +44,19 @@ func (c *Config) GetVersion() string {
 	return c.Viper.GetString("version")
 }
 
-func (c *Config) GetAllToolLengths() (map[string]string, error) {
+func (c *Config) GetAllToolLengths() (map[int]Tool, error) {
+	var tools map[int]Tool
+	err := c.Viper.UnmarshalKey("tools", &tools)
 
-	// var tools map[string]Tool
-	// err := c.Viper.UnmarshalKey("tools", &tools)
+	if err != nil {
 
-	tools := c.Viper.GetStringMapString("tools")
-
-	for toolId,length := range tools {
-		c.log.Debug(fmt.Sprintf("tool: %v length: %v",toolId,length))
+		c.log.Error(err.Error())
+		return nil, err
 	}
-	// if err != nil {
-
-	// 	c.log.Error(err.Error())
-	// 	return nil, err
-	// }
 	return tools, nil
 }
 
-func (c *Config) GetToolLength(toolNumber int) (*string, error) {
+func (c *Config) GetToolLength(toolNumber int) (*float32, error) {
 
 	tools, err := c.GetAllToolLengths()
 
@@ -70,9 +64,9 @@ func (c *Config) GetToolLength(toolNumber int) (*string, error) {
 		return nil, err
 	}
 
-	tool, ok := tools[fmt.Sprint(toolNumber)]
+	tool, ok := tools[toolNumber]
 	if ok {
-		return &tool, nil
+		return &tool.Length, nil
 	}
 	err = fmt.Errorf("tool %v not found", toolNumber)
 	c.log.Error(err)
@@ -81,16 +75,9 @@ func (c *Config) GetToolLength(toolNumber int) (*string, error) {
 
 func (c *Config) SetToolLength(toolNumber int, length float32) {
 
-	c.Viper.Set("tools.12", fmt.Sprint(length))
-	// c.Viper.Set(fmt.Sprintf("tools.%v.length", toolNumber), length)
+	c.Viper.Set(fmt.Sprintf("tools.%v.length", toolNumber), length)
 	err := c.Viper.WriteConfig()
-
 	if err != nil {
 		c.log.Error(fmt.Sprintf("error writing config %v", err))
 	}
-	// err = c.Viper.ReadInConfig()
-	// if err != nil {
-	// 	c.log.Error(fmt.Sprintf("error reading in config %v", err))
-	// }
-
 }
