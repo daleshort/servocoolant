@@ -13,17 +13,21 @@ import (
 //200000 hz clock =  .000005 second per cycle
 
 type ServoManager struct {
-	id          int //is this servo 1 or 2
-	pinNumber   int
-	log         *logrus.Logger
-	pin         rpio.Pin
-	config      *config.Config
-	minDuty     int
-	maxDuty     int
-	cycleLength int
-	offset      int
-	travelRange int
-	Angle       int
+	id              int //is this servo 1 or 2
+	pinNumber       int
+	log             *logrus.Logger
+	pin             rpio.Pin
+	config          *config.Config
+	minDuty         int
+	maxDuty         int
+	cycleLength     int
+	Offset          int
+	TravelRange     int
+	Angle           int
+	IsAuto          bool
+	IsWiggle        bool
+	WiggleAmplitude int
+	WiggleFrequency float32
 }
 
 func GetServoManager(log *logrus.Logger, config *config.Config, id int) *ServoManager {
@@ -75,9 +79,9 @@ func GetServoManager(log *logrus.Logger, config *config.Config, id int) *ServoMa
 		minDuty:     config.Viper.GetInt("devicemanager.servo.minduty"),
 		maxDuty:     config.Viper.GetInt("devicemanager.servo.maxduty"),
 		cycleLength: config.Viper.GetInt("devicemanager.servo.cyclelength"),
-		travelRange: config.Viper.GetInt("devicemanager.servo.travelrange"),
+		TravelRange: config.Viper.GetInt("devicemanager.servo.travelrange"),
 		pinNumber:   pinNumber,
-		offset:      offset,
+		Offset:      offset,
 	}
 }
 
@@ -114,21 +118,21 @@ func (s *ServoManager) SetMaxDuty() {
 func (s *ServoManager) SetAngle(angle int) error {
 
 	// servo has 0 to 270 degree range
-	// servo is tilted back 15 degrees
+	// pretend servo is tilted back 15 degrees
 	// real world range is -15 degrees to 255 degrees
 	// offset is set to 15 so if i specify 0 degrees, servo actually goes an extra 15 degrees so it looks like 0
 
-	if angle > s.travelRange-s.offset || angle < 0-s.offset {
+	if angle > s.TravelRange-s.Offset || angle < 0-s.Offset {
 		s.log.Error(fmt.Sprintf("invalid angle specified: %v", angle))
 		return fmt.Errorf("invalid angle specified: %v", angle)
 	}
 
 	s.Angle = angle
-	adjustedAngle := angle + s.offset
+	adjustedAngle := angle + s.Offset
 
 	dutyRange := s.maxDuty - s.minDuty
 
-	anglePct := float32(adjustedAngle) / float32(s.travelRange)
+	anglePct := float32(adjustedAngle) / float32(s.TravelRange)
 	dutyResult := s.minDuty + int(anglePct*float32(dutyRange))
 
 	s.SetDutyCycle(dutyResult)

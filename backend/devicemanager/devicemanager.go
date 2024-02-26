@@ -11,11 +11,12 @@ import (
 )
 
 type DeviceManager struct {
-	log      *log.Logger
-	config   *config.Config
-	Servo1   *servomanager.ServoManager
-	Servo2   *servomanager.ServoManager
-	sensePin rpio.Pin
+	log             *log.Logger
+	config          *config.Config
+	Servo1          *servomanager.ServoManager
+	Servo2          *servomanager.ServoManager
+	sensePin        rpio.Pin
+	IsToolsenseHigh bool
 }
 
 func GetDeviceManager(log *log.Logger, config *config.Config) *DeviceManager {
@@ -53,6 +54,33 @@ func (d *DeviceManager) init() {
 
 	d.Servo1.Init()
 	d.Servo2.Init()
+	go d.monitorSensePin()
+}
+
+func (d *DeviceManager) isStateHigh() bool {
+
+	return d.sensePin.Read() == rpio.High
+
+}
+func (d *DeviceManager) monitorSensePin() {
+
+	d.IsToolsenseHigh = d.isStateHigh()
+	lastRead := d.IsToolsenseHigh
+	currentRead := d.IsToolsenseHigh
+	for {
+		time.Sleep(time.Millisecond * 10)
+		currentRead = d.isStateHigh()
+		if currentRead != lastRead {
+			//do nothing
+		} else {
+			if currentRead != d.IsToolsenseHigh {
+				// tool change state has changed with debounce
+				d.IsToolsenseHigh = currentRead
+				d.log.Info(fmt.Sprintf("toolchange pin status has changed to %v", d.IsToolsenseHigh))
+			}
+		}
+		lastRead = currentRead
+	}
 }
 
 func (d *DeviceManager) RunRangeTest() {

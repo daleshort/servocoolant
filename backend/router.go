@@ -9,6 +9,9 @@ import (
 
 func (sc *ServoCoolant) RegisterEndpoints() {
 	http.HandleFunc("/servo", sc.handlerServo)
+	http.HandleFunc("/servowiggle", sc.handlerServoWiggle)
+	http.HandleFunc("/servoauto", sc.handlerServoAuto)
+	http.HandleFunc("/status", sc.handlerStatus)
 	http.HandleFunc("/", sc.handlerTest)
 
 }
