@@ -149,7 +149,7 @@ func (s *ServoManager) TestServoWiggle() {
 
 	s.Angle = 20
 	s.IsWiggle = true
-	s.WiggleAmplitude = 5
+	s.WiggleAmplitude = 10
 	s.WiggleFrequency = 1
 	time.Sleep(time.Second * 5)
 
