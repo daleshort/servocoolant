@@ -44,9 +44,9 @@ func (c *Config) GetVersion() string {
 	return c.Viper.GetString("version")
 }
 
-func (c *Config) GetAllToolLengths() (map[int]Tool, error) {
+func (c *Config) GetAllToolLengths() (map[string]Tool, error) {
 
-	var tools map[int]Tool
+	var tools map[string]Tool
 	err := c.Viper.UnmarshalKey("tools", &tools)
 
 	if err != nil {
@@ -65,7 +65,7 @@ func (c *Config) GetToolLength(toolNumber int) (*float32, error) {
 		return nil, err
 	}
 
-	tool, ok := tools[toolNumber]
+	tool, ok := tools[fmt.Sprint(toolNumber)]
 	if ok {
 		return &tool.Length, nil
 	}

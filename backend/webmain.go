@@ -10,7 +10,7 @@ import (
 type StatusResponse struct {
 	ServoStatus     map[int]ServoDetailStatusResponse `json:"servostatus" example:"100"`
 	IsToolsenseHigh bool                              `json:"istoolsensehigh" example:"true" `
-	Tools           map[int]config.Tool               `json:"tools" example:"{1:{length:12.2}}" `
+	Tools           map[string]config.Tool               `json:"tools" example:"{1:{length:12.2}}" `
 }
 
 func (sc *ServoCoolant) handlerStatus(w http.ResponseWriter, r *http.Request) {
