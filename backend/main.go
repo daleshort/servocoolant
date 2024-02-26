@@ -34,13 +34,8 @@ func (sc *ServoCoolant) Run() {
 	//go sc.deviceManager.Servo1.TestServoWiggle()
 
 
-	// length, _ := sc.config.GetToolLength(12)
-	// sc.log.Info(fmt.Sprintf("getting tool length 12: %v", *length))
 
-	// sc.config.SetToolLength(12, 15.123)
-
-	// length, _ = sc.config.GetToolLength(12)
-	// sc.log.Info(fmt.Sprintf("getting tool length 12: %v", *length))
+	 sc.config.SetToolLength(12, 15.123)
 
 	sc.log.Fatal(http.ListenAndServe(":8080", sc.enableCors(sc.logRequest(http.DefaultServeMux))))
 	//sc.deviceManager.RunAngleTest()
