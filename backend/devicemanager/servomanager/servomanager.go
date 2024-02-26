@@ -124,7 +124,7 @@ func (s *ServoManager) SetMaxDuty() {
 
 func (s *ServoManager) maintainServoAngle() {
 	for {
-		time.Sleep(time.Millisecond * 100)
+		time.Sleep(time.Millisecond * 10)
 
 		if !s.IsWiggle {
 			s.moveServoToAngle(float64(s.Angle))
@@ -143,14 +143,14 @@ func (s *ServoManager) TestServoWiggle() {
 	s.Angle = 90
 	s.IsWiggle = true
 	s.WiggleAmplitude = 5
-	s.WiggleFrequency = .2
+	s.WiggleFrequency = 1
 
 	time.Sleep(time.Second * 5)
 
 	s.Angle = 20
 	s.IsWiggle = true
 	s.WiggleAmplitude = 5
-	s.WiggleFrequency = .2
+	s.WiggleFrequency = 1
 	time.Sleep(time.Second * 5)
 
 	s.Angle = 0
