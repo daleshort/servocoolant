@@ -7,7 +7,6 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-
 func (sc *ServoCoolant) RegisterEndpoints() {
 	http.HandleFunc("/servo", sc.handlerServo)
 	http.HandleFunc("/", sc.handlerTest)
@@ -25,6 +24,20 @@ func (sc *ServoCoolant) logRequest(handler http.Handler) http.Handler {
 			"method":  r.Method,
 			"url":     r.URL,
 		}).Debug("http request")
+		
 		handler.ServeHTTP(w, r)
 	})
 }
+
+func (sc *ServoCoolant) enableCors(handler http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Add("Access-Control-Allow-Origin", "*")
+		
+		handler.ServeHTTP(w, r)
+	})
+}
+
+
+
+// fs := http.FileServer(http.Dir("build"))
+// http.Handle("/", fs)

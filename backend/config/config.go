@@ -67,9 +67,8 @@ func (c *Config) GetToolLength(toolNumber int) (*float32, error) {
 func (c *Config) SetToolLength(toolNumber int, length float32) {
 
 	c.Viper.Set(fmt.Sprintf("tools.%v.length", toolNumber), length)
-	err:= c.Viper.WriteConfig()
-	if(err !=nil){
-		c.log.Error("error writing config")
-		c.log.Error(err.Error())
+	err := c.Viper.WriteConfig()
+	if err != nil {
+		c.log.Error(fmt.Sprintf("error writing config %v", err))
 	}
 }
