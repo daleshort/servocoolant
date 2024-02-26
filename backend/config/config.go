@@ -44,20 +44,22 @@ func (c *Config) GetVersion() string {
 	return c.Viper.GetString("version")
 }
 
-func (c *Config) GetAllToolLengths() (map[string]Tool, error) {
+func (c *Config) GetAllToolLengths() (map[string]string, error) {
 
-	var tools map[string]Tool
-	err := c.Viper.UnmarshalKey("tools", &tools)
+	// var tools map[string]Tool
+	// err := c.Viper.UnmarshalKey("tools", &tools)
 
-	if err != nil {
+	tools := c.Viper.GetStringMapString("tools")
 
-		c.log.Error(err.Error())
-		return nil, err
-	}
+	// if err != nil {
+
+	// 	c.log.Error(err.Error())
+	// 	return nil, err
+	// }
 	return tools, nil
 }
 
-func (c *Config) GetToolLength(toolNumber int) (*float32, error) {
+func (c *Config) GetToolLength(toolNumber int) (*string, error) {
 
 	tools, err := c.GetAllToolLengths()
 
@@ -67,7 +69,7 @@ func (c *Config) GetToolLength(toolNumber int) (*float32, error) {
 
 	tool, ok := tools[fmt.Sprint(toolNumber)]
 	if ok {
-		return &tool.Length, nil
+		return &tool, nil
 	}
 	err = fmt.Errorf("tool %v not found", toolNumber)
 	c.log.Error(err)

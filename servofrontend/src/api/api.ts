@@ -26,10 +26,10 @@ export type ServoPostRequest = {
   angle: number;
 };
 
-export type ToolData = {
-  length: number;
-};
-export type ToolStatus = { [key: number]: ToolData };
+// export type ToolData = {
+//   length: number;
+// };
+export type ToolStatus = { [key: number]: number };
 
 export type ResponseOk = "ok";
 
