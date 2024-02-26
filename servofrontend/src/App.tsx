@@ -1,6 +1,6 @@
 import "./App.css";
 import { useEffect } from "react";
-import { getServo, ServoResponse } from "./api/api";
+import { getServo, ServoResponse, postServo } from "./api/api";
 
 function App() {
   useEffect(() => {
@@ -13,6 +13,8 @@ function App() {
       }
 
       console.log(servoData);
+
+      postServo({servos:[1,2], angle: 90})
     };
 
     getData();
