@@ -12,8 +12,8 @@ type Config struct {
 	Viper *viper.Viper
 }
 
-type tool struct {
-	Length float32 `mapstructure:"length"` //must be capitalized in struct for viper to unmarshall
+type Tool struct {
+	Length float32 `json:"length" mapstructure:"length"` //must be capitalized in struct for viper to unmarshall
 }
 
 func GetConfig(log *log.Logger) *Config {
@@ -44,14 +44,23 @@ func (c *Config) GetVersion() string {
 	return c.Viper.GetString("version")
 }
 
-func (c *Config) GetToolLength(toolNumber int) (*float32, error) {
-
-	var tools map[int]tool
+func (c *Config) GetAllToolLengths() (map[int]Tool, error) {
+	var tools map[int]Tool
 	err := c.Viper.UnmarshalKey("tools", &tools)
 
 	if err != nil {
 
 		c.log.Error(err.Error())
+		return nil, err
+	}
+	return tools, nil
+}
+
+func (c *Config) GetToolLength(toolNumber int) (*float32, error) {
+
+	tools, err := c.GetAllToolLengths()
+
+	if err != nil {
 		return nil, err
 	}
 

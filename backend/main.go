@@ -32,7 +32,7 @@ func main() {
 func (sc *ServoCoolant) Run() {
 	sc.RegisterEndpoints()
 
-	sc.deviceManager.Servo1.TestServoWiggle()
+	go sc.deviceManager.Servo1.TestServoWiggle()
 
 
 	length, _ := sc.config.GetToolLength(12)

@@ -152,15 +152,6 @@ func (sc *ServoCoolant) handlerServo(w http.ResponseWriter, r *http.Request) {
 
 }
 
-// type ServoDetailStatusResponse struct {
-// 	Angle       int     `json:"angle" example:"100"`
-// 	IsAuto      bool    `json:"isauto" example:"true"`
-// 	IsWiggle    bool    `json:"iswiggle" example:"true"`
-// 	Amplitude   int     `json:"amplitude" example:"10"`
-// 	Frequency   float32 `json:"frequency" example:".5"`
-// 	TravelRange int     `json:"travelrange" example:"265"`
-// 	Offset      int     `json:"offset" example:"20"`
-// }
 
 func (sc *ServoCoolant) handlerGetServo(w http.ResponseWriter, r *http.Request) {
 

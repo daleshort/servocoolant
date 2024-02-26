@@ -1,20 +1,20 @@
 import "./App.css";
 import { useEffect } from "react";
-import { getServo, ServoResponse, postServo } from "./api/api";
+import {  getStatus, StatusResponse } from "./api/api";
 
 function App() {
   useEffect(() => {
     const getData = async () => {
-      const servoData: ServoResponse | Error = await getServo();
+      const statusData: StatusResponse | Error = await getStatus();
 
-      if (servoData instanceof Error) {
+      if (statusData instanceof Error) {
         console.log(Error);
         return;
       }
 
-      console.log(servoData);
+      console.log(statusData);
 
-      postServo({servos:[1,2], angle: 90})
+    //  postServo({servos:[1,2], angle: 90})
     };
 
     getData();
