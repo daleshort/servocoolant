@@ -2,6 +2,8 @@ package servomanager
 
 import (
 	"fmt"
+	"math"
+	"time"
 
 	logrus "github.com/sirupsen/logrus"
 	"github.com/stianeikeland/go-rpio/v4"
@@ -28,6 +30,7 @@ type ServoManager struct {
 	IsWiggle        bool
 	WiggleAmplitude int
 	WiggleFrequency float32
+	wiggleTime      time.Time
 }
 
 func GetServoManager(log *logrus.Logger, config *config.Config, id int) *ServoManager {
@@ -73,15 +76,19 @@ func GetServoManager(log *logrus.Logger, config *config.Config, id int) *ServoMa
 	}
 
 	return &ServoManager{
-		id:          id,
-		log:         log,
-		config:      config,
-		minDuty:     config.Viper.GetInt("devicemanager.servo.minduty"),
-		maxDuty:     config.Viper.GetInt("devicemanager.servo.maxduty"),
-		cycleLength: config.Viper.GetInt("devicemanager.servo.cyclelength"),
-		TravelRange: config.Viper.GetInt("devicemanager.servo.travelrange"),
-		pinNumber:   pinNumber,
-		Offset:      offset,
+		id:              id,
+		log:             log,
+		config:          config,
+		minDuty:         config.Viper.GetInt("devicemanager.servo.minduty"),
+		maxDuty:         config.Viper.GetInt("devicemanager.servo.maxduty"),
+		cycleLength:     config.Viper.GetInt("devicemanager.servo.cyclelength"),
+		TravelRange:     config.Viper.GetInt("devicemanager.servo.travelrange"),
+		pinNumber:       pinNumber,
+		Offset:          offset,
+		wiggleTime:      time.Now(),
+		IsWiggle:        false,
+		WiggleAmplitude: 0,
+		WiggleFrequency: 0,
 	}
 }
 
@@ -98,7 +105,7 @@ func (s *ServoManager) Init() {
 	rpio.StartPwm()
 
 	s.SetAngle(0)
-
+	go s.maintainServoAngle()
 }
 
 func (s *ServoManager) SetDutyCycle(dutyLength int) {
@@ -115,20 +122,49 @@ func (s *ServoManager) SetMaxDuty() {
 	s.SetDutyCycle(s.maxDuty)
 }
 
-func (s *ServoManager) SetAngle(angle int) error {
+func (s *ServoManager) maintainServoAngle() {
+	for {
+		time.Sleep(time.Millisecond * 100)
 
+		if !s.IsWiggle {
+			s.moveServoToAngle(float64(s.Angle))
+		} else {
+
+			timeEllapsed := float64(time.Since(s.wiggleTime).Seconds())
+			amplitudeShiftFactor := math.Sin(2 * math.Pi * float64(s.WiggleFrequency) * timeEllapsed)
+			amplitudeShift := amplitudeShiftFactor * float64(s.WiggleAmplitude)
+			s.moveServoToAngle(float64(s.Angle) + amplitudeShift)
+		}
+	}
+}
+
+func (s *ServoManager) TestServoWiggle() {
+
+	s.Angle = 90
+	s.IsWiggle = true
+	s.WiggleAmplitude = 5
+	s.WiggleFrequency = .2
+
+	time.Sleep(time.Second * 5)
+
+	s.Angle = 20
+	s.IsWiggle = true
+	s.WiggleAmplitude = 5
+	s.WiggleFrequency = .2
+	time.Sleep(time.Second * 5)
+
+	s.Angle = 0
+	s.IsWiggle = false
+
+}
+
+func (s *ServoManager) moveServoToAngle(angle float64) {
 	// servo has 0 to 270 degree range
 	// pretend servo is tilted back 15 degrees
 	// real world range is -15 degrees to 255 degrees
 	// offset is set to 15 so if i specify 0 degrees, servo actually goes an extra 15 degrees so it looks like 0
 
-	if angle > s.TravelRange-s.Offset || angle < 0-s.Offset {
-		s.log.Error(fmt.Sprintf("invalid angle specified: %v", angle))
-		return fmt.Errorf("invalid angle specified: %v", angle)
-	}
-
-	s.Angle = angle
-	adjustedAngle := angle + s.Offset
+	adjustedAngle := angle + float64(s.Offset)
 
 	dutyRange := s.maxDuty - s.minDuty
 
@@ -137,5 +173,14 @@ func (s *ServoManager) SetAngle(angle int) error {
 
 	s.SetDutyCycle(dutyResult)
 
+}
+
+func (s *ServoManager) SetAngle(angle int) error {
+	if angle > s.TravelRange-s.Offset || angle < 0-s.Offset {
+		s.log.Error(fmt.Sprintf("invalid angle specified: %v", angle))
+		return fmt.Errorf("invalid angle specified: %v", angle)
+	}
+
+	s.Angle = angle
 	return nil
 }
