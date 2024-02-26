@@ -33,10 +33,10 @@ func (c *Config) init() {
 	c.Viper.AddConfigPath(".")
 	c.Viper.WatchConfig()
 
-	err := viper.ReadInConfig()
-	if err != nil {
-		panic(fmt.Errorf("fatal error config file: %w", err))
-	}
+	// err := viper.ReadInConfig()
+	// if err != nil {
+	// 	panic(fmt.Errorf("fatal error config file: %w", err))
+	// }
 
 }
 
@@ -45,7 +45,7 @@ func (c *Config) GetVersion() string {
 }
 
 func (c *Config) GetAllToolLengths() (map[int]Tool, error) {
-	c.Viper.ReadInConfig()
+
 	var tools map[int]Tool
 	err := c.Viper.UnmarshalKey("tools", &tools)
 
@@ -82,9 +82,9 @@ func (c *Config) SetToolLength(toolNumber int, length float32) {
 	if err != nil {
 		c.log.Error(fmt.Sprintf("error writing config %v", err))
 	}
-	err = c.Viper.ReadInConfig()
-	if err != nil {
-		c.log.Error(fmt.Sprintf("error reading in config %v", err))
-	}
+	// err = c.Viper.ReadInConfig()
+	// if err != nil {
+	// 	c.log.Error(fmt.Sprintf("error reading in config %v", err))
+	// }
 
 }

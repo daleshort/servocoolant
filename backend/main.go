@@ -36,7 +36,7 @@ func (sc *ServoCoolant) Run() {
 
 
 	 sc.config.SetToolLength(12, 15.123)
-
+	sc.config.GetToolLength(2)
 	sc.log.Fatal(http.ListenAndServe(":8080", sc.enableCors(sc.logRequest(http.DefaultServeMux))))
 	//sc.deviceManager.RunAngleTest()
 }
