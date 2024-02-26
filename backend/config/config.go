@@ -51,6 +51,9 @@ func (c *Config) GetAllToolLengths() (map[string]string, error) {
 
 	tools := c.Viper.GetStringMapString("tools")
 
+	for toolId,length := range tools {
+		c.log.Debug(fmt.Sprintf("tool: %v length: %v",toolId,length))
+	}
 	// if err != nil {
 
 	// 	c.log.Error(err.Error())
