@@ -1,6 +1,7 @@
 import { useStatus } from "../../hooks/useStatus";
 import Badge from "react-bootstrap/Badge";
-import "./toolDetail.css"
+import "./toolDetail.css";
+import ProgressBar from "react-bootstrap/ProgressBar";
 
 export type ToolDetailProps = {
   toolId: number;
@@ -15,9 +16,12 @@ export const ToolDetail = ({ toolId }: ToolDetailProps): React.JSX.Element => {
     return 0;
   };
   return (
-    <div>
-      <Badge bg="secondary" > {toolId}</Badge>
-      <span className="tool-length">{getToolLength()}</span>
+    <div className="tool-detail-container">
+      <Badge bg="secondary"> {toolId}</Badge>
+      <span className="tool-length">{getToolLength()} </span>
+      <div className="progress-bar">
+        <ProgressBar now={getToolLength()} min={0} max={10} />
+      </div>
     </div>
   );
 };
