@@ -4,6 +4,7 @@ import { StatusProvider } from "./context/StatusProvider";
 import { ServoCommon } from "./elements/ServoCommon";
 import { ServoController } from "./elements/ServoController";
 import { StatusLoader } from "./elements/StatusLoader";
+import { ToolList } from "./elements/tools/ToolList";
 
 function App() {
   return (
@@ -16,7 +17,9 @@ function App() {
           {" "}
           <ServoController servoId={2} />
         </div>
-        <div className="box box3">Box 3</div>
+        <div className="box box3">
+          <ToolList />
+        </div>
         <div className="box box4">
           <ServoCommon />
         </div>

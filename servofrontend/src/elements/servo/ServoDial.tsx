@@ -2,11 +2,15 @@ import { Donut } from "react-dial-knob";
 import { ServoControllerProps } from "../ServoController";
 import { useStatus } from "../../hooks/useStatus";
 import { postServo } from "../../api/api";
-import "./servoDial.css"
+import { useState } from "react";
+import "./servoDial.css";
 
 export const ServoDial = ({
   servoId,
 }: ServoControllerProps): React.JSX.Element => {
+  const [hasInteracted, setHasInteracted] = useState(false);
+  const [desiredAngle, setDesiredAngle] = useState(0);
+
   const { status } = useStatus();
   const getServoStatus = () => {
     return status?.servostatus[servoId];
@@ -29,7 +33,7 @@ export const ServoDial = ({
     return 100;
   };
 
-  const getAngle = () => {
+  const getAngleFromServer = () => {
     const s = getServoStatus();
     if (s) {
       return s.angle;
@@ -37,8 +41,18 @@ export const ServoDial = ({
     return 0;
   };
 
-  const setAngle = (angle:number) => {
-    postServo({servos: [servoId], angle})
+  const getAngle = () => {
+    if (!hasInteracted) {
+      return getAngleFromServer();
+    } else {
+      return desiredAngle;
+    }
+  };
+
+  const setAngle = (angle: number) => {
+    setHasInteracted(true);
+    setDesiredAngle(angle);
+    postServo({ servos: [servoId], angle });
   };
 
   return (

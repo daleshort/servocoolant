@@ -1,16 +1,15 @@
 import Card from "react-bootstrap/Card";
 
 import { WiggleAmplitude } from "./servo/WiggleAmplitude";
-
+import { WiggleFrequency } from "./servo/WiggleFrequency";
 
 export const ServoCommon = (): React.JSX.Element => {
   return (
     <Card>
-      <Card.Header as="h5">Servo Settings</Card.Header>
+      <Card.Header as="h5">Wiggle Settings</Card.Header>
       <Card.Body>
-        
-        <WiggleAmplitude/>
-        
+        <WiggleAmplitude />
+        <WiggleFrequency />
       </Card.Body>
     </Card>
   );

@@ -27,12 +27,14 @@ export type ServoPostRequest = {
 };
 export type ServoAutoPostRequest = {
   servos: Array<ServoNumber>;
-  isauto: boolean ;
+  isauto: boolean;
 };
 
 export type ServoWigglePostRequest = {
   servos: Array<ServoNumber>;
-  iswiggle: boolean ;
+  iswiggle?: boolean;
+  amplitude?: number;
+  frequency?: number;
 };
 
 export type ToolData = {
@@ -91,7 +93,6 @@ export const postServo = async (
   }
   return Error("response error");
 };
-
 
 export const postServoAuto = async (
   request: ServoAutoPostRequest

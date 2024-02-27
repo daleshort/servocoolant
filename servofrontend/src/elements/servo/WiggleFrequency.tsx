@@ -6,9 +6,9 @@ import { useState } from "react";
 import { Button } from "react-bootstrap";
 import "./servoInput.css"
 
-export const WiggleAmplitude = () => {
+export const WiggleFrequency = () => {
   const { status } = useStatus();
-  const [amplitude, setAmplitude] = useState("");
+  const [frequency, setFrequency] = useState("");
   const [hasInteracted, setHasInteracted] = useState(false);
 
   //currently only going to support setting wiggle
@@ -18,75 +18,75 @@ export const WiggleAmplitude = () => {
     return status?.servostatus[1];
   };
 
-  const getAmplitude = () => {
+  const getFrequency = () => {
     const s = getServoStatus();
     if (s) {
-      return s.amplitude;
+      return s.frequency;
     }
     return -1;
   };
 
+  const isPositiveFloat = (s: string) => {
+    const num = parseFloat(s);
 
-  const isPositiveInteger = (s: string) => {
-    const num = parseInt(s);
-
-    return parseInt(num.toString()) == num && num >= 0;
+    return num >= 0;
   };
 
   const isInputValid = (input: string) => {
-    if (!isPositiveInteger(input)) {
+    if (!isPositiveFloat(input)) {
       return false;
     }
-    if (parseInt(input) > 40) {
+    if (parseFloat(input) > 3) {
       return false;
     }
     return true;
   };
 
-  const handleAmplitudeInput = (e: React.FormEvent<HTMLInputElement>) => {
+  const handleFrequencyInput = (e: React.FormEvent<HTMLInputElement>) => {
     setHasInteracted(true);
-    setAmplitude(e.currentTarget.value);
+    setFrequency(e.currentTarget.value);
   };
 
-  const getAmplitudeDisplayValue = () => {
+  const getFrequencyDisplayValue = () => {
     if (hasInteracted) {
-      return amplitude;
+      return frequency;
     } else {
-      return getAmplitude();
+      return getFrequency();
     }
   };
 
   const handleSubmit = () => {
-    if (isInputValid(amplitude)) {
+    if (isInputValid(frequency)) {
       postServoWiggle({
         servos: [1, 2],
-        amplitude: parseInt(amplitude),
+        frequency: parseFloat(frequency),
       });
     } else {
-      setAmplitude(getAmplitude().toString());
+      setFrequency(getFrequency().toString());
     }
   };
 
   const isSubmitNeeded = () => {
-    return amplitude != getAmplitude().toString();
+    return frequency != getFrequency().toString();
   };
 
   const getButtonVariant = () => {
-    if(!hasInteracted){
-        return "outline-secondary"
+    if (!hasInteracted) {
+      return "outline-secondary";
     }
-    
+
     return isSubmitNeeded() ? "primary" : "outline-secondary";
   };
 
   return (
     <>
       <InputGroup className="mb-3">
-        <InputGroup.Text id="basic-addon1">A</InputGroup.Text>
+        <InputGroup.Text id="basic-addon1">F</InputGroup.Text>
         <Form.Control
-        className="servo-input"
-          value={getAmplitudeDisplayValue()}
-          onInput={handleAmplitudeInput}
+         className="servo-input"
+          value={getFrequencyDisplayValue()}
+          onInput={handleFrequencyInput}
+          
         />
         <Button
           variant={getButtonVariant()}
