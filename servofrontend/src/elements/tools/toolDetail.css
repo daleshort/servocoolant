@@ -1,12 +1,25 @@
-.tool-length{
-    margin-left: 10px;
+.tool-length {
+  margin-left: 10px;
+  min-width: 8ch;
+
 }
 
-.tool-detail-container{
-    display: flex;
+.tool-badge-vertical-center{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-.progress-bar{
-    padding-left: 10px;
-    width: 100%;
+.tool-badge {
+  min-width: 5ch;
+  }
+.tool-detail-container {
+  display: flex;
+  
+  
+}
+
+.progress-bar {
+  padding-left: 10px;
+  width: 100%;
 }

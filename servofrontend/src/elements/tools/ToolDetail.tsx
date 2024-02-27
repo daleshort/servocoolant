@@ -15,12 +15,26 @@ export const ToolDetail = ({ toolId }: ToolDetailProps): React.JSX.Element => {
     }
     return 0;
   };
+
+  const getBarVariant = () => {
+    return getToolLength() < 0 ? "danger" : "primary";
+  };
   return (
     <div className="tool-detail-container">
-      <Badge bg="secondary"> {toolId}</Badge>
-      <span className="tool-length">{getToolLength()} </span>
+      <Badge className="tool-badge " bg="secondary">
+        {toolId}
+      </Badge>
+
+      <span className="tool-length  tool-badge-vertical-center">
+        {getToolLength()}{" "}
+      </span>
       <div className="progress-bar">
-        <ProgressBar now={getToolLength()} min={0} max={10} />
+        <ProgressBar
+          now={Math.abs(getToolLength())}
+          variant={getBarVariant()}
+          min={0}
+          max={10}
+        />
       </div>
     </div>
   );
