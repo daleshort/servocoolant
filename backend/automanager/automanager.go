@@ -60,6 +60,7 @@ func (a *AutoManager) CalculateAngleForToolLength(toolId int) int {
 		"length":       length,
 		"actualLength": actualLength,
 		"angleDeg":     int(angleDeg),
+		"basetToolHeight": baseToolHeight,
 	}).Debug("computed angle")
 	return int(angleDeg)
 }
