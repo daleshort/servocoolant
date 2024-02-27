@@ -3,7 +3,7 @@ devicemanager:
   toolchangepin: 13 #pin sensing tool changer movement (BCM pin #)
   servo1pin: 18 #pwm controling servo  (BCM pin #)
   servo2pin: 19
-  servo: 
+  servo:
     clockfreq: 200000 #pwm clock frequency
     minduty: 100 #how many clock cycles represent min servo travel
     maxduty: 500 #how many clock cycles represent max servo travel
@@ -15,6 +15,10 @@ tools:
   12:
     length: 1.125
   2:
-    length: 2.35
+    length: 1.1
   13:
     length: -4
+automanager:
+  quadrantoffset: 90 #Assume servo angle 0 is straight up then evey tool angle is between 90 and 180 degrees.
+  0offsetangle: 135 #what angle is good for tool length 0
+  offsetstandoff: 2 #how far back the nozzle is mounted (used to inform angle calculations)

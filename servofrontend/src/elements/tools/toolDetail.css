@@ -1,22 +1,23 @@
 .tool-length {
   margin-left: 10px;
   min-width: 8ch;
-
 }
 
-.tool-badge-vertical-center{
-    display:flex;
-    flex-direction: column;
-    justify-content: center;
+.tool-badge-vertical-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .tool-badge {
   min-width: 5ch;
-  }
+}
+
+.tool-badge-text {
+  font-size: 1.2em;
+}
 .tool-detail-container {
   display: flex;
-  
-  
 }
 
 .progress-bar {

@@ -22,7 +22,7 @@ export const ToolDetail = ({ toolId }: ToolDetailProps): React.JSX.Element => {
   return (
     <div className="tool-detail-container">
       <Badge className="tool-badge " bg="secondary">
-        {toolId}
+        <span className="tool-badge-text">{toolId}</span>
       </Badge>
 
       <span className="tool-length  tool-badge-vertical-center">

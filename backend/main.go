@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	log "github.com/sirupsen/logrus"
+	automanager "mechied.com/servocoolant/automanager"
 	config "mechied.com/servocoolant/config"
 	devicemanager "mechied.com/servocoolant/devicemanager"
 	slog "mechied.com/servocoolant/logger"
@@ -13,6 +14,7 @@ type ServoCoolant struct {
 	log           *log.Logger
 	config        *config.Config
 	deviceManager *devicemanager.DeviceManager
+	autoManager   *automanager.AutoManager
 }
 
 func main() {
@@ -23,7 +25,7 @@ func main() {
 	sc.config = config.GetConfig(sc.log)
 
 	sc.deviceManager = devicemanager.GetDeviceManager(sc.log, sc.config)
-
+	sc.autoManager = automanager.GetAutoManager(sc.log, sc.config, sc.deviceManager)
 	sc.Run()
 
 }
@@ -33,11 +35,11 @@ func (sc *ServoCoolant) Run() {
 
 	//go sc.deviceManager.Servo1.TestServoWiggle()
 
-
 	// length, _ := sc.config.GetToolLength(12)
 	// sc.log.Info(fmt.Sprintf("getting tool length 12: %v", *length))
 
 	sc.config.SetToolLength(12, 2.123)
+	sc.autoManager.CalculateAngleForToolLength(2)
 
 	// length, _ = sc.config.GetToolLength(12)
 	// sc.log.Info(fmt.Sprintf("getting tool length 12: %v", *length))
