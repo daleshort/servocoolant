@@ -45,6 +45,10 @@ func (a *AutoManager) CalculateAngleForToolLength(toolId int) int {
 	// tan(baseToolAngle) =  baseToolHeight/offsetStandoff
 	baseToolHeight := math.Tan(baseToolAngleDeg*2*math.Pi/360) * offsetStandoff
 
+	a.log.WithFields(log.Fields{
+		"basetToolHeight":  baseToolHeight,
+		"baseToolAngleDeg": baseToolAngleDeg,
+	}).Debug("computed angle")
 	actualLength := float64(*length) + baseToolHeight
 
 	angleRad := math.Atan(actualLength / offsetStandoff)
@@ -57,10 +61,9 @@ func (a *AutoManager) CalculateAngleForToolLength(toolId int) int {
 
 	a.log.WithFields(log.Fields{
 		"toolId":       toolId,
-		"length":       length,
+		"length":       *length,
 		"actualLength": actualLength,
 		"angleDeg":     int(angleDeg),
-		"basetToolHeight": baseToolHeight,
 	}).Debug("computed angle")
 	return int(angleDeg)
 }
