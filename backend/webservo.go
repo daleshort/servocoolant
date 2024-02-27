@@ -26,10 +26,10 @@ type servoPostRequest struct {
 }
 
 type servoWigglePostRequest struct {
-	Servos    []int   `json:"servos" example:"[1,2]"`
-	Amplitude int     `json:"amplitude" example:"10"`
-	Frequency float32 `json:"frequency" example:".5"`
-	IsWiggle  bool    `json:"iswiggle" example:"true"`
+	Servos    []int    `json:"servos" example:"[1,2]"`
+	Amplitude *int     `json:"amplitude" example:"10"`
+	Frequency *float32 `json:"frequency" example:".5"`
+	IsWiggle  *bool    `json:"iswiggle" example:"true"`
 }
 type servoAutoPostRequest struct {
 	Servos []int `json:"servos" example:"[1,2]"`
@@ -60,14 +60,25 @@ func (sc *ServoCoolant) handlerPostServoWiggle(w http.ResponseWriter, r *http.Re
 	for _, servo := range req.Servos {
 		var err error
 		if servo == 1 {
-			sc.deviceManager.Servo1.IsWiggle = req.IsWiggle
-			sc.deviceManager.Servo1.WiggleAmplitude = req.Amplitude
-			sc.deviceManager.Servo1.WiggleFrequency = req.Frequency
-
+			if req.IsWiggle != nil {
+				sc.deviceManager.Servo1.IsWiggle = *req.IsWiggle
+			}
+			if req.Amplitude != nil {
+				sc.deviceManager.Servo1.WiggleAmplitude = *req.Amplitude
+			}
+			if req.Frequency != nil {
+				sc.deviceManager.Servo1.WiggleFrequency = *req.Frequency
+			}
 		} else if servo == 2 {
-			sc.deviceManager.Servo2.IsWiggle = req.IsWiggle
-			sc.deviceManager.Servo2.WiggleAmplitude = req.Amplitude
-			sc.deviceManager.Servo2.WiggleFrequency = req.Frequency
+			if req.IsWiggle != nil {
+				sc.deviceManager.Servo2.IsWiggle = *req.IsWiggle
+			}
+			if req.Amplitude != nil {
+				sc.deviceManager.Servo2.WiggleAmplitude = *req.Amplitude
+			}
+			if req.Frequency != nil {
+				sc.deviceManager.Servo2.WiggleFrequency = *req.Frequency
+			}
 		} else {
 			err = fmt.Errorf("bad servo number requested %v", servo)
 		}
@@ -151,7 +162,6 @@ func (sc *ServoCoolant) handlerServo(w http.ResponseWriter, r *http.Request) {
 	}
 
 }
-
 
 func (sc *ServoCoolant) handlerGetServo(w http.ResponseWriter, r *http.Request) {
 

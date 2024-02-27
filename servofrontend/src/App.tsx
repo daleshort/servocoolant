@@ -1,26 +1,29 @@
 import "./App.css";
-import { useEffect } from "react";
-import {  getStatus, StatusResponse } from "./api/api";
+
+import { StatusProvider } from "./context/StatusProvider";
+import { ServoCommon } from "./elements/ServoCommon";
+import { ServoController } from "./elements/ServoController";
+import { StatusLoader } from "./elements/StatusLoader";
 
 function App() {
-  useEffect(() => {
-    const getData = async () => {
-      const statusData: StatusResponse | Error = await getStatus();
-
-      if (statusData instanceof Error) {
-        console.log(Error);
-        return;
-      }
-
-      console.log(statusData);
-
-    //  postServo({servos:[1,2], angle: 90})
-    };
-
-    getData();
-  });
-
-  return <>Hi</>;
+  return (
+    <StatusProvider>
+      <div className="grid-container">
+        <div className="box box1">
+          <ServoController servoId={1} />
+        </div>
+        <div className="box box2">
+          {" "}
+          <ServoController servoId={2} />
+        </div>
+        <div className="box box3">Box 3</div>
+        <div className="box box4">
+          <ServoCommon />
+        </div>
+      </div>
+      <StatusLoader />
+    </StatusProvider>
+  );
 }
 
 export default App;

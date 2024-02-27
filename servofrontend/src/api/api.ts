@@ -19,11 +19,20 @@ export type ServoDetailStatus = {
   offset: number;
 };
 
-type ServoNumber = 1 | 2;
+export type ServoNumber = 1 | 2;
 
 export type ServoPostRequest = {
   servos: Array<ServoNumber>;
   angle: number;
+};
+export type ServoAutoPostRequest = {
+  servos: Array<ServoNumber>;
+  isauto: boolean ;
+};
+
+export type ServoWigglePostRequest = {
+  servos: Array<ServoNumber>;
+  iswiggle: boolean ;
 };
 
 export type ToolData = {
@@ -69,6 +78,42 @@ export const postServo = async (
   request: ServoPostRequest
 ): Promise<Error | ResponseOk> => {
   const url = "servo";
+
+  try {
+    await axiosPublic.post(url, request);
+    return "ok";
+  } catch (error: unknown | AxiosError) {
+    if (error instanceof AxiosError && !error?.response) {
+      console.error("no server response");
+    } else {
+      console.error("failed request", url);
+    }
+  }
+  return Error("response error");
+};
+
+
+export const postServoAuto = async (
+  request: ServoAutoPostRequest
+): Promise<Error | ResponseOk> => {
+  const url = "servoauto";
+
+  try {
+    await axiosPublic.post(url, request);
+    return "ok";
+  } catch (error: unknown | AxiosError) {
+    if (error instanceof AxiosError && !error?.response) {
+      console.error("no server response");
+    } else {
+      console.error("failed request", url);
+    }
+  }
+  return Error("response error");
+};
+export const postServoWiggle = async (
+  request: ServoWigglePostRequest
+): Promise<Error | ResponseOk> => {
+  const url = "servowiggle";
 
   try {
     await axiosPublic.post(url, request);
