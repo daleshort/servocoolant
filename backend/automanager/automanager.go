@@ -38,7 +38,9 @@ func (a *AutoManager) CalculateAngleForToolLength(toolId int) int {
 	//  |
 	// 0 t
 
-	baseToolAngleDeg := a.config.Viper.GetFloat64("automanager.0offsetangle") - a.config.Viper.GetFloat64("quadrantoffset")
+	quadrantOffsetDeg := a.config.Viper.GetFloat64("automanager.quadrantoffset")
+
+	baseToolAngleDeg := a.config.Viper.GetFloat64("automanager.0offsetangle") - quadrantOffsetDeg
 
 	offsetStandoff := a.config.Viper.GetFloat64("automanager.offsetstandoff")
 
@@ -53,9 +55,9 @@ func (a *AutoManager) CalculateAngleForToolLength(toolId int) int {
 
 	angleRad := math.Atan(actualLength / offsetStandoff)
 
-	angleDeg := ((angleRad * 360) / (2 * math.Pi)) + a.config.Viper.GetFloat64("quadrantoffset")
+	angleDeg := ((angleRad * 360) / (2 * math.Pi)) + quadrantOffsetDeg
 
-	if angleDeg > a.config.Viper.GetFloat64("quadrantoffset")+90 || angleDeg < a.config.Viper.GetFloat64("quadrantoffset") {
+	if angleDeg > quadrantOffsetDeg+90 || angleDeg < quadrantOffsetDeg {
 		a.log.Warn(fmt.Sprintf("angle seems suspicious %v", angleDeg))
 	}
 
