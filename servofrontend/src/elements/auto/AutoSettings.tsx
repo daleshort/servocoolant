@@ -1,10 +1,10 @@
-import { useStatus } from "../../hooks/useStatus";
 import { Button } from "react-bootstrap";
 import { postToolToQueue, getProgramEnd, getProgramStart } from "../../api/api";
 import { useState } from "react";
+import "./autosettings.css"
 
 export const AutoSettings = (): React.JSX.Element => {
-  const { status } = useStatus();
+  
   const [count, setCount] = useState(1);
 
   const handleAddClick = () => {
@@ -21,13 +21,14 @@ export const AutoSettings = (): React.JSX.Element => {
   };
 
   return (
-    <div>
-      <div>Program running: {status?.isprogramrunning ? "true" : "false"}</div>
-      <div>Queue Position: {status?.currenttoolqueueposition}</div>
-      <div> Queue: {status?.toolqueue}</div>
-      <Button onClick={handleStartClick}> Force Start </Button>
-      <Button onClick={handleEndClick}> Force End</Button>
-      <Button onClick={handleAddClick}>Add {count} to Queue </Button>
+    <div >
+      <Button className="button-in-group"  variant="secondary" onClick={handleStartClick}>
+        Force Start
+      </Button>
+      <Button className="button-in-group" variant="danger" onClick={handleEndClick}>
+        Force End
+      </Button>
+      <Button className="button-in-group" onClick={handleAddClick}>Add {count} to Queue </Button>
     </div>
   );
 };

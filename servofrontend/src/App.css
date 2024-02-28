@@ -4,7 +4,7 @@
   display: grid;
   grid-template-areas:
     "servo1 servoCommon status"
-    "servo2 settings status";
+    "servo2 toolqueue status";
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr  1fr  1fr;
   height: 100vh;
@@ -16,19 +16,22 @@
   padding: 20px;
 }
 
-.box1 {
+.servo1 {
   grid-area: servo1;
 }
 
-.box2 {
+.servo2 {
   grid-area: servo2;
 }
 
-.box3 {
+.status {
   grid-area: status;
 }
 
-.box4 {
+.servo-common{
   grid-area: servoCommon;
+}
+.toolqueue{
+  grid-area: toolqueue;
 }
 

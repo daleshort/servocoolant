@@ -26,7 +26,7 @@ export const StatusLoader = () => {
   let interval: number;
 
   const startInterval = () => {
-    interval = setInterval(getStatusFromServer, 1000);
+    interval = setInterval(getStatusFromServer, 100);
   };
 
   useEffect(() => {

@@ -10,7 +10,7 @@ export type StatusResponse = {
   currenttoolqueueposition: number;
 };
 
-export type ToolQueueAddRequest = {
+export type ToolQueueRequest = {
   toolid: number;
 };
 
@@ -98,9 +98,26 @@ export const getProgramEnd = async (): Promise<number | Error> => {
 };
 
 export const postToolToQueue = async (
-  request: ToolQueueAddRequest
+  request: ToolQueueRequest
 ): Promise<Error | ResponseOk> => {
   const url = "auto/toolqueueadd";
+
+  try {
+    await axiosPublic.post(url, request);
+    return "ok";
+  } catch (error: unknown | AxiosError) {
+    if (error instanceof AxiosError && !error?.response) {
+      console.error("no server response");
+    } else {
+      console.error("failed request", url);
+    }
+  }
+  return Error("response error");
+};
+export const postToolQueueToPosision = async (
+  request: ToolQueueRequest
+): Promise<Error | ResponseOk> => {
+  const url = "auto/queueposition";
 
   try {
     await axiosPublic.post(url, request);

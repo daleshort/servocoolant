@@ -1,6 +1,9 @@
 package automanager
 
-import "time"
+import (
+	"fmt"
+	"time"
+)
 
 func (a *AutoManager) ActivateToolLength(toolId int) error {
 
@@ -38,6 +41,21 @@ func (a *AutoManager) activateCurrentTool() {
 	currentTool := a.ToolQueue[a.CurrentToolQueuePosition]
 	//activate the tool
 	a.ActivateToolLength(currentTool)
+}
+
+func (a *AutoManager) HandleSetToolQueueToPosition(position int) error {
+
+	if(position >= len(a.ToolQueue)){
+		return fmt.Errorf("position %v is greater than queue", position)
+	}
+
+	if(position < 0){
+		return fmt.Errorf("position %v is invalid", position)
+	}
+
+	a.CurrentToolQueuePosition = position
+	a.activateCurrentTool()
+	return nil
 }
 
 func (a *AutoManager) HandleEndOfProgramEvent() {

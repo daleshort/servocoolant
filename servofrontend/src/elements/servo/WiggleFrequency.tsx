@@ -4,7 +4,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 import { postServoWiggle } from "../../api/api";
 import { useState } from "react";
 import { Button } from "react-bootstrap";
-import "./servoInput.css"
+import "./servoInput.css";
 
 export const WiggleFrequency = () => {
   const { status } = useStatus();
@@ -67,7 +67,8 @@ export const WiggleFrequency = () => {
   };
 
   const isSubmitNeeded = () => {
-    return frequency != getFrequency().toString();
+
+    return parseFloat(frequency) != getFrequency();
   };
 
   const getButtonVariant = () => {
@@ -83,10 +84,9 @@ export const WiggleFrequency = () => {
       <InputGroup className="mb-3">
         <InputGroup.Text id="basic-addon1">F</InputGroup.Text>
         <Form.Control
-         className="servo-input"
+          className="servo-input"
           value={getFrequencyDisplayValue()}
           onInput={handleFrequencyInput}
-          
         />
         <Button
           variant={getButtonVariant()}

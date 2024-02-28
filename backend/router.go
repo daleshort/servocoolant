@@ -11,6 +11,7 @@ import (
 func (sc *ServoCoolant) RegisterEndpoints() {
 	http.HandleFunc("/auto/toolqueueadd", sc.handlerToolQueueAdd)
 	http.HandleFunc("/auto/programstart", sc.handlerAutoStart)
+	http.HandleFunc("/auto/queueposition", sc.handlerToolQueuePosition)
 	http.HandleFunc("/auto/programend", sc.handlerAutoEnd)
 	http.HandleFunc("/servo", sc.handlerServo)
 	http.HandleFunc("/servowiggle", sc.handlerServoWiggle)
