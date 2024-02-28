@@ -79,9 +79,8 @@ func (sc *ServoCoolant) handlerForceTool(w http.ResponseWriter, r *http.Request)
 			return
 		}
 
-		sc.autoManager.HandleEndOfProgramEvent()
-		sc.autoManager.AddToolToQueue(req.ToolId)
 		sc.autoManager.HandleProgramStartEvent()
+		sc.autoManager.AddToolToQueue(req.ToolId)
 		sc.autoManager.HandleSetToolQueueToPosition(0)
 
 
