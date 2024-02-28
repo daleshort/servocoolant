@@ -28,7 +28,7 @@ func GetAutoManager(log *log.Logger, config *config.Config, deviceManager *devic
 		config:                   config,
 		devicemanager:            deviceManager,
 		CurrentToolQueuePosition: 0,
-		ToolQueue:                make([]int, 1000),
+		ToolQueue:                make([]int,0),
 		IsProgramRunning:         false,
 		autoToolsenseEventChan:   make(chan bool),
 	}
@@ -120,7 +120,7 @@ func (a *AutoManager) ResetToolQueuePosition() {
 }
 
 func (a *AutoManager) ResetToolQueue() {
-	a.ToolQueue = make([]int, 1000)
+	a.ToolQueue = make([]int, 0)
 	a.log.Debug("tool queue reset")
 
 }
