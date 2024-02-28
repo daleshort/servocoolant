@@ -5,6 +5,9 @@ export type StatusResponse = {
   servostatus: ServoStatus;
   istoolsensehigh: boolean;
   tools: ToolStatus;
+  toolqueue: Array<number>;
+  isprogramrunning: boolean;
+  currenttoolqueueposition: number;
 };
 
 export type ServoStatus = { [key: number]: ServoDetailStatus };

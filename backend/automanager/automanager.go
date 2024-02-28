@@ -3,6 +3,7 @@ package automanager
 import (
 	"fmt"
 	"math"
+	"time"
 
 	log "github.com/sirupsen/logrus"
 	config "mechied.com/servocoolant/config"
@@ -10,25 +11,57 @@ import (
 )
 
 type AutoManager struct {
-	log           *log.Logger
-	config        *config.Config
-	devicemanager *devicemanager.DeviceManager
+	log                      *log.Logger
+	config                   *config.Config
+	devicemanager            *devicemanager.DeviceManager
+	CurrentToolQueuePosition int
+	ToolQueue                []int
+	programStart             time.Time
+	IsProgramRunning         bool
+	autoToolsenseEventChan   chan bool
 }
 
 func GetAutoManager(log *log.Logger, config *config.Config, deviceManager *devicemanager.DeviceManager) *AutoManager {
 
 	a := AutoManager{
-		log:           log,
-		config:        config,
-		devicemanager: deviceManager,
+		log:                      log,
+		config:                   config,
+		devicemanager:            deviceManager,
+		CurrentToolQueuePosition: 0,
+		ToolQueue:                make([]int, 1000),
+		IsProgramRunning:         false,
+		autoToolsenseEventChan:   make(chan bool),
 	}
-
+	a.init()
 	return &a
 }
 
-func (a *AutoManager) CalculateAngleForToolLength(toolId int) int {
+func (a *AutoManager) init() {
 
-	length, _ := a.config.GetToolLength(toolId)
+	// register the channel with devicemanager.
+	// think about doing this channel thing less adhoc in the future
+	a.devicemanager.AutoToolsenseEventChan = &a.autoToolsenseEventChan
+
+	go a.monitorToolChange()
+
+}
+
+func (a *AutoManager) monitorToolChange() {
+	for {
+		isToolSenseHigh := <-a.autoToolsenseEventChan
+
+		a.handleToolSenseEvent(isToolSenseHigh)
+	}
+}
+
+func (a *AutoManager) CalculateAngleForToolLength(toolId int) (*int, error) {
+
+	length, err := a.config.GetToolLength(toolId)
+
+	if err != nil {
+		a.log.Error(fmt.Sprintf("error locating tool %v length", toolId))
+		return nil, err
+	}
 
 	//    offset standoff
 	// ___________
@@ -67,5 +100,39 @@ func (a *AutoManager) CalculateAngleForToolLength(toolId int) int {
 		"actualLength": actualLength,
 		"angleDeg":     int(angleDeg),
 	}).Debug("computed angle")
-	return int(angleDeg)
+	angleInt := int(angleDeg)
+	return &angleInt, nil
+}
+
+func (a *AutoManager) GetCurrentTool() int {
+	if len(a.ToolQueue) == 0 {
+		return -1
+	}
+	if a.CurrentToolQueuePosition >= len(a.ToolQueue) {
+		return -1
+	}
+	return a.ToolQueue[a.CurrentToolQueuePosition]
+}
+
+func (a *AutoManager) ResetToolQueuePosition() {
+	a.CurrentToolQueuePosition = 0
+	a.log.Debug("tool queue position reset")
+}
+
+func (a *AutoManager) ResetToolQueue() {
+	a.ToolQueue = make([]int, 1000)
+	a.log.Debug("tool queue reset")
+
+}
+
+func (a *AutoManager) AdvanceToolQueuePosition() {
+	a.CurrentToolQueuePosition += 1
+
+	if a.CurrentToolQueuePosition >= len(a.ToolQueue) {
+		a.CurrentToolQueuePosition = len(a.ToolQueue) - 1
+		a.log.Error(fmt.Sprintf("tool queue position advanced beyond length of queue. remaining at %v", a.CurrentToolQueuePosition))
+	}
+	a.log.Debug(fmt.Sprintf("tool queue advanced to %v", a.CurrentToolQueuePosition))
+	//activate the tool. ie. set the servos to the correct angle
+	a.activateCurrentTool()
 }
