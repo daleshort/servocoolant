@@ -4,13 +4,14 @@ import { AutoSettings } from "./auto/AutoSettings";
 import { ListGroup } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
 import { useStatus } from "../hooks/useStatus";
+import { SerialPort } from "./serial/SerialPort";
 
 export const ToolQueueCard = (): React.JSX.Element => {
   const { status } = useStatus();
 
   const getSpinner = () => {
     if (status?.isprogramrunning) {
-      return <Spinner animation="border"  size="sm"/>;
+      return <Spinner animation="border" size="sm" />;
     }
   };
 
@@ -23,6 +24,7 @@ export const ToolQueueCard = (): React.JSX.Element => {
       <ListGroup variant="flush">
         <ListGroup.Item>
           <AutoSettings />
+          <SerialPort />
         </ListGroup.Item>
       </ListGroup>
     </Card>

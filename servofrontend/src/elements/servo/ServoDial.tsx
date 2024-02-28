@@ -50,9 +50,12 @@ export const ServoDial = ({
   };
 
   const setAngle = (angle: number) => {
-    setHasInteracted(true);
+    
+    if(hasInteracted){
     setDesiredAngle(angle);
     postServo({ servos: [servoId], angle });
+    }
+    setHasInteracted(true);
   };
 
   return (
@@ -73,7 +76,7 @@ export const ServoDial = ({
         onValueChange={setAngle}
         ariaLabelledBy={"my-label"}
       >
-        <label id={"my-label"}>Angle</label>
+        <label id={"my-label"}>Angle {getAngleFromServer()}</label>
       </Donut>
     </div>
   );
