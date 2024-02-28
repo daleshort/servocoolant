@@ -13,9 +13,7 @@
   min-width: 5ch;
 }
 
-.tool-badge-text {
-  font-size: 1.2em;
-}
+
 .tool-detail-container {
   display: flex;
 }

@@ -132,6 +132,24 @@ export const postToolQueueToPosision = async (
   return Error("response error");
 };
 
+export const postForceTool = async (
+  request: ToolQueueRequest
+): Promise<Error | ResponseOk> => {
+  const url = "auto/forcetool";
+
+  try {
+    await axiosPublic.post(url, request);
+    return "ok";
+  } catch (error: unknown | AxiosError) {
+    if (error instanceof AxiosError && !error?.response) {
+      console.error("no server response");
+    } else {
+      console.error("failed request", url);
+    }
+  }
+  return Error("response error");
+};
+
 export const getServo = async (): Promise<ServoStatus | Error> => {
   const url = "servo";
   try {

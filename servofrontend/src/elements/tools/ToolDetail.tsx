@@ -1,7 +1,8 @@
 import { useStatus } from "../../hooks/useStatus";
-import Badge from "react-bootstrap/Badge";
+import Button from "react-bootstrap/Button";
 import "./toolDetail.css";
 import ProgressBar from "react-bootstrap/ProgressBar";
+import { postForceTool } from "../../api/api";
 
 export type ToolDetailProps = {
   toolId: number;
@@ -16,14 +17,52 @@ export const ToolDetail = ({ toolId }: ToolDetailProps): React.JSX.Element => {
     return 0;
   };
 
+  const isToolActive = () => {
+    if (status) {
+      if (
+        status.currenttoolqueueposition < 0 ||
+        status.currenttoolqueueposition >= status.toolqueue.length
+      ) {
+        return false;
+      }
+      return status.toolqueue[status.currenttoolqueueposition] == toolId;
+    }
+    return false;
+  };
+
+  const getBadgeVariant = () => {
+    if (isToolActive()) {
+      return "primary";
+    }
+
+    return "secondary";
+  };
+
   const getBarVariant = () => {
     return getToolLength() < 0 ? "danger" : "primary";
   };
+
+  const getStripedAndAnimated = () => {
+    if (isToolActive()) {
+      return true;
+    }
+    return false;
+  };
+
+  const handleButtonClick = () => {
+    postForceTool({ toolid: toolId });
+  };
+
   return (
     <div className="tool-detail-container">
-      <Badge className="tool-badge " bg="secondary">
-        <span className="tool-badge-text">{toolId}</span>
-      </Badge>
+      <Button
+        className="tool-badge "
+        variant={getBadgeVariant()}
+        size="sm"
+        onClick={handleButtonClick}
+      >
+        {toolId}
+      </Button>
 
       <span className="tool-length  tool-badge-vertical-center">
         {getToolLength()}{" "}
@@ -34,6 +73,8 @@ export const ToolDetail = ({ toolId }: ToolDetailProps): React.JSX.Element => {
           variant={getBarVariant()}
           min={0}
           max={10}
+          striped={getStripedAndAnimated()}
+          animated={getStripedAndAnimated()}
         />
       </div>
     </div>

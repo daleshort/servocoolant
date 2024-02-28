@@ -67,3 +67,31 @@ func (sc *ServoCoolant) handlerToolQueuePosition(w http.ResponseWriter, r *http.
 	}
 
 }
+func (sc *ServoCoolant) handlerForceTool(w http.ResponseWriter, r *http.Request) {
+
+	if r.Method == http.MethodPost {
+
+		var req ToolQueueRequest
+		err := json.NewDecoder(r.Body).Decode(&req)
+		if err != nil {
+			sc.log.Error("bad post tool to force tool request")
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+
+		sc.autoManager.HandleEndOfProgramEvent()
+		sc.autoManager.AddToolToQueue(req.ToolId)
+		sc.autoManager.HandleProgramStartEvent()
+		sc.autoManager.HandleSetToolQueueToPosition(0)
+
+
+		err = sc.autoManager.HandleSetToolQueueToPosition(req.ToolId)
+
+		if err != nil{
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			sc.log.Error(err.Error())
+		}
+		return
+	}
+
+}

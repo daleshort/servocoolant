@@ -31,7 +31,7 @@ export const ToolQueue = (): React.JSX.Element => {
       {getToolQueueList().map((t,index) => {
         return (
           
-            <Button variant={getBadgeColor(index)} className="toolqueue-badge" onClick={()=>handleButtonClick(index)}>
+            <Button key={index} variant={getBadgeColor(index)} className="toolqueue-badge" onClick={()=>handleButtonClick(index)}>
               <span className="toolqueue-item-text">{t}</span>
             </Button>
           
