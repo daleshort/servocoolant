@@ -2,14 +2,16 @@ import Card from "react-bootstrap/Card";
 
 import { WiggleAmplitude } from "./servo/WiggleAmplitude";
 import { WiggleFrequency } from "./servo/WiggleFrequency";
+import { AutoSettings } from "./auto/AutoSettings";
 
-export const ServoCommon = (): React.JSX.Element => {
+export const SettingsCommon = (): React.JSX.Element => {
   return (
     <Card>
       <Card.Header as="h5">Wiggle Settings</Card.Header>
       <Card.Body>
         <WiggleAmplitude />
         <WiggleFrequency />
+        <AutoSettings />
       </Card.Body>
     </Card>
   );

@@ -26,6 +26,9 @@ func (sc *ServoCoolant) handlerStatus(w http.ResponseWriter, r *http.Request) {
 			ServoStatus:     sc.getServoStatus(),
 			IsToolsenseHigh: sc.deviceManager.IsToolsenseHigh,
 			Tools:           tools,
+			ToolQueue:       sc.autoManager.ToolQueue,
+			IsProgramRunning: sc.autoManager.IsProgramRunning,
+			CurrentToolQueuePosition: sc.autoManager.CurrentToolQueuePosition,
 		}
 
 		w.Header().Set("Content-Type", "application/json")

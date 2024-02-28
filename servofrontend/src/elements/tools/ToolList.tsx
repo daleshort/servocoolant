@@ -15,14 +15,13 @@ export const ToolList = (): React.JSX.Element => {
         tools.push(parseInt(t));
       }
     }
-    console.log(tools);
     return tools;
   };
 
   const getToolElements = () => {
     return getToolList().map((t) => {
       return (
-        <ListGroupItem>
+        <ListGroupItem key={t}>
           <ToolDetail toolId={t} />
         </ListGroupItem>
       );
