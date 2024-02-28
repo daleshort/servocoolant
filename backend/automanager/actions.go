@@ -66,6 +66,7 @@ func (a *AutoManager) HandleEndOfProgramEvent() {
 }
 
 func (a *AutoManager) HandleProgramStartEvent() {
+	a.HandleEndOfProgramEvent() // force program end to be sure
 	a.programStart = time.Now()
 	a.IsProgramRunning = true
 
