@@ -13,10 +13,14 @@ func (a *AutoManager) ActivateToolLength(toolId int) error {
 
 	if a.devicemanager.Servo1.IsAuto {
 		a.devicemanager.Servo1.SetAngle(*angle)
+	} else {
+		a.log.Debug("skipped setting angle for servo1. servo is in manual mode")
 	}
 
 	if a.devicemanager.Servo2.IsAuto {
 		a.devicemanager.Servo2.SetAngle(*angle)
+	} else {
+		a.log.Debug("skipped setting angle for servo1. servo is in manual mode")
 	}
 	return nil
 }

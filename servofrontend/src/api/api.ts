@@ -10,6 +10,10 @@ export type StatusResponse = {
   currenttoolqueueposition: number;
 };
 
+export type ToolQueueAddRequest = {
+  toolid: number;
+};
+
 export type ServoStatus = { [key: number]: ServoDetailStatus };
 
 export type ServoDetailStatus = {
@@ -53,6 +57,54 @@ export const getStatus = async (): Promise<StatusResponse | Error> => {
     const response: AxiosResponse = await axiosPublic.get(url);
     const responseData: StatusResponse = response.data;
     return responseData;
+  } catch (error: unknown | AxiosError) {
+    if (error instanceof AxiosError && !error?.response) {
+      console.error("no server response");
+    } else {
+      console.error("failed request", url);
+    }
+  }
+  return Error("response error");
+};
+
+export const getProgramStart = async (): Promise<number | Error> => {
+  const url = "/auto/programstart";
+  try {
+    const response: AxiosResponse = await axiosPublic.get(url);
+    return response.status;
+  } catch (error: unknown | AxiosError) {
+    if (error instanceof AxiosError && !error?.response) {
+      console.error("no server response");
+    } else {
+      console.error("failed request", url);
+    }
+  }
+  return Error("response error");
+};
+
+export const getProgramEnd = async (): Promise<number | Error> => {
+  const url = "/auto/programend";
+  try {
+    const response: AxiosResponse = await axiosPublic.get(url);
+    return response.status;
+  } catch (error: unknown | AxiosError) {
+    if (error instanceof AxiosError && !error?.response) {
+      console.error("no server response");
+    } else {
+      console.error("failed request", url);
+    }
+  }
+  return Error("response error");
+};
+
+export const postToolToQueue = async (
+  request: ToolQueueAddRequest
+): Promise<Error | ResponseOk> => {
+  const url = "auto/toolqueueadd";
+
+  try {
+    await axiosPublic.post(url, request);
+    return "ok";
   } catch (error: unknown | AxiosError) {
     if (error instanceof AxiosError && !error?.response) {
       console.error("no server response");

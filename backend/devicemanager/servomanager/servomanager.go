@@ -87,6 +87,7 @@ func GetServoManager(log *logrus.Logger, config *config.Config, id int) *ServoMa
 		Offset:          offset,
 		wiggleTime:      time.Now(),
 		IsWiggle:        false,
+		IsAuto:          true,
 		WiggleAmplitude: 0,
 		WiggleFrequency: 0,
 	}
