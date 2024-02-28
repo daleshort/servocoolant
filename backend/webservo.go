@@ -42,7 +42,6 @@ func (sc *ServoCoolant) handlerServoWiggle(w http.ResponseWriter, r *http.Reques
 		sc.handlerPostServoWiggle(w, r)
 		return
 	}
-	http.Error(w, "invalid method", http.StatusMethodNotAllowed)
 
 }
 
@@ -99,7 +98,6 @@ func (sc *ServoCoolant) handlerServoAuto(w http.ResponseWriter, r *http.Request)
 		sc.handlerPostServoAuto(w, r)
 		return
 	}
-	http.Error(w, "invalid method", http.StatusMethodNotAllowed)
 
 }
 
@@ -167,7 +165,6 @@ func (sc *ServoCoolant) handlerServo(w http.ResponseWriter, r *http.Request) {
 		sc.handlerPostServo(w, r)
 		return
 	}
-	http.Error(w, "invalid method", http.StatusMethodNotAllowed)
 
 }
 

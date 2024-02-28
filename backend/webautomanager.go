@@ -15,7 +15,6 @@ func (sc *ServoCoolant) handlerAutoStart(w http.ResponseWriter, r *http.Request)
 		sc.autoManager.HandleProgramStartEvent()
 		return
 	}
-	http.Error(w, "invalid method", http.StatusMethodNotAllowed)
 
 }
 
@@ -25,7 +24,6 @@ func (sc *ServoCoolant) handlerAutoEnd(w http.ResponseWriter, r *http.Request) {
 		sc.autoManager.HandleEndOfProgramEvent()
 		return
 	}
-	http.Error(w, "invalid method", http.StatusMethodNotAllowed)
 
 }
 
@@ -44,7 +42,6 @@ func (sc *ServoCoolant) handlerToolQueueAdd(w http.ResponseWriter, r *http.Reque
 		sc.autoManager.AddToolToQueue(req.ToolId)
 		return
 	}
-	http.Error(w, "invalid method", http.StatusMethodNotAllowed)
 
 }
 
@@ -69,7 +66,4 @@ func (sc *ServoCoolant) handlerToolQueuePosition(w http.ResponseWriter, r *http.
 		return
 	}
 
-	
-		http.Error(w, "invalid method", http.StatusMethodNotAllowed)
-		sc.log.Error("invalid method requested")
 }

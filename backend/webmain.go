@@ -37,6 +37,5 @@ func (sc *ServoCoolant) handlerStatus(w http.ResponseWriter, r *http.Request) {
 		return
 
 	}
-	http.Error(w, "invalid method", http.StatusMethodNotAllowed)
 
 }
