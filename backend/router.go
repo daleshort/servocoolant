@@ -3,11 +3,15 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"strings"
 
 	log "github.com/sirupsen/logrus"
 )
 
 func (sc *ServoCoolant) RegisterEndpoints() {
+	http.HandleFunc("/auto/toolqueueadd", sc.handlerToolQueueAdd)
+	http.HandleFunc("/auto/programstart", sc.handlerAutoStart)
+	http.HandleFunc("/auto/programend", sc.handlerAutoEnd)
 	http.HandleFunc("/servo", sc.handlerServo)
 	http.HandleFunc("/servowiggle", sc.handlerServoWiggle)
 	http.HandleFunc("/servoauto", sc.handlerServoAuto)
@@ -22,11 +26,14 @@ func (sc *ServoCoolant) handlerTest(w http.ResponseWriter, r *http.Request) {
 
 func (sc *ServoCoolant) logRequest(handler http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+
+		if(!strings.Contains(r.URL.Path,"/status")){
 		sc.log.WithFields(log.Fields{
 			"address": r.RemoteAddr,
 			"method":  r.Method,
 			"url":     r.URL,
 		}).Debug("http request")
+		}
 		
 		handler.ServeHTTP(w, r)
 	})

@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-type servoStatusResponse struct {
+type ServoStatusResponse struct {
 	ServoStatus map[int]ServoDetailStatusResponse `json:"servostatus" example:"100"`
 }
 
@@ -20,18 +20,18 @@ type ServoDetailStatusResponse struct {
 	Offset      int     `json:"offset" example:"20"`
 }
 
-type servoPostRequest struct {
+type ServoPostRequest struct {
 	Servos []int `json:"servos" example:"[1,2]"`
 	Angle  int   `json:"angle" example:"100"`
 }
 
-type servoWigglePostRequest struct {
+type ServoWigglePostRequest struct {
 	Servos    []int    `json:"servos" example:"[1,2]"`
 	Amplitude *int     `json:"amplitude" example:"10"`
 	Frequency *float32 `json:"frequency" example:".5"`
 	IsWiggle  *bool    `json:"iswiggle" example:"true"`
 }
-type servoAutoPostRequest struct {
+type ServoAutoPostRequest struct {
 	Servos []int `json:"servos" example:"[1,2]"`
 	IsAuto bool  `json:"isauto" example:"true"`
 }
@@ -46,7 +46,7 @@ func (sc *ServoCoolant) handlerServoWiggle(w http.ResponseWriter, r *http.Reques
 
 func (sc *ServoCoolant) handlerPostServoWiggle(w http.ResponseWriter, r *http.Request) {
 
-	var req servoWigglePostRequest
+	var req ServoWigglePostRequest
 
 	// Try to decode the request body into the struct. If there is an error,
 	// respond to the client with the error message and a 400 status code.
@@ -100,7 +100,7 @@ func (sc *ServoCoolant) handlerServoAuto(w http.ResponseWriter, r *http.Request)
 
 func (sc *ServoCoolant) handlerPostServoAuto(w http.ResponseWriter, r *http.Request) {
 
-	var req servoAutoPostRequest
+	var req ServoAutoPostRequest
 
 	// Try to decode the request body into the struct. If there is an error,
 	// respond to the client with the error message and a 400 status code.
@@ -165,7 +165,7 @@ func (sc *ServoCoolant) handlerServo(w http.ResponseWriter, r *http.Request) {
 
 func (sc *ServoCoolant) handlerGetServo(w http.ResponseWriter, r *http.Request) {
 
-	resp := servoStatusResponse{ServoStatus: sc.getServoStatus()}
+	resp := ServoStatusResponse{ServoStatus: sc.getServoStatus()}
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
@@ -175,7 +175,7 @@ func (sc *ServoCoolant) handlerGetServo(w http.ResponseWriter, r *http.Request) 
 
 func (sc *ServoCoolant) handlerPostServo(w http.ResponseWriter, r *http.Request) {
 
-	var req servoPostRequest
+	var req ServoPostRequest
 
 	// Try to decode the request body into the struct. If there is an error,
 	// respond to the client with the error message and a 400 status code.
