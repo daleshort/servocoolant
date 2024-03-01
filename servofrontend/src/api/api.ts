@@ -14,6 +14,11 @@ export type ToolQueueRequest = {
   toolid: number;
 };
 
+export type ToolLengthRequest = {
+  toolid:number,
+  toollength:number
+}
+
 export type ServoStatus = { [key: number]: ServoDetailStatus };
 
 export type ServoDetailStatus = {
@@ -96,6 +101,25 @@ export const getProgramEnd = async (): Promise<number | Error> => {
   }
   return Error("response error");
 };
+
+export const postToolLength = async (
+  request: ToolLengthRequest
+): Promise<Error | ResponseOk> => {
+  const url = "auto/toolqueueadd";
+
+  try {
+    await axiosPublic.post(url, request);
+    return "ok";
+  } catch (error: unknown | AxiosError) {
+    if (error instanceof AxiosError && !error?.response) {
+      console.error("no server response");
+    } else {
+      console.error("failed request", url);
+    }
+  }
+  return Error("response error");
+};
+
 
 export const postToolToQueue = async (
   request: ToolQueueRequest

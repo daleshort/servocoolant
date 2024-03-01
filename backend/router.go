@@ -18,6 +18,7 @@ func (sc *ServoCoolant) RegisterEndpoints() {
 	http.HandleFunc("/servowiggle", sc.handlerServoWiggle)
 	http.HandleFunc("/servoauto", sc.handlerServoAuto)
 	http.HandleFunc("/status", sc.handlerStatus)
+	http.HandleFunc("/toollength", sc.handlerPostToolLength)
 	http.HandleFunc("/", sc.handlerTest)
 
 }

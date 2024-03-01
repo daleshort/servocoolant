@@ -16,6 +16,11 @@ type StatusResponse struct {
 	CurrentToolQueuePosition int  `json:"currenttoolqueueposition" example:"1" `
 }
 
+type ToolLengthRequest struct {
+	ToolId int `json:"toolid" example:"2"`
+	ToolLength float32 `json:"toollength" example:"1.43"`
+}
+
 func (sc *ServoCoolant) handlerStatus(w http.ResponseWriter, r *http.Request) {
 
 	if r.Method == http.MethodGet {
@@ -37,5 +42,23 @@ func (sc *ServoCoolant) handlerStatus(w http.ResponseWriter, r *http.Request) {
 		return
 
 	}
+
+}
+
+func (sc *ServoCoolant) handlerPostToolLength(w http.ResponseWriter, r *http.Request) {
+
+		if(r.Method == http.MethodPost){
+
+			var req ToolLengthRequest
+			err := json.NewDecoder(r.Body).Decode(&req)
+			if err != nil {
+				sc.log.Error("bad post tool length request")
+				http.Error(w, err.Error(), http.StatusBadRequest)
+				return
+			}
+		
+			sc.config.SetToolLength(req.ToolId,req.ToolLength)
+
+		}
 
 }

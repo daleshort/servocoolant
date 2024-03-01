@@ -1,4 +1,5 @@
 import { Button } from "react-bootstrap";
+import { processString } from "./processString";
 
 export const SerialPort = (): React.JSX.Element => {
   const openSerialPort = async () => {
@@ -23,11 +24,15 @@ export const SerialPort = (): React.JSX.Element => {
             break;
           }
           if (value) {
-            console.log(value);
+
+            const string = new TextDecoder().decode(value);
+            processString(string)
+            
           }
         }
       } catch (error) {
         console.error("serial error", error);
+
       }
     }
   };
