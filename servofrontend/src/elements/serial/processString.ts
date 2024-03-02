@@ -20,17 +20,19 @@ export const processString = (s:string)=>{
         })
         console.log("posted tool", toolNumber)
     }else if(s.includes("TO")){
-        console.log("tool offset detected")
+        console.log("tool offset detected", s)
 
        const { toolNumber, offset} =   getToolOffsetNumbers(s)
 
        if(toolNumber == null || offset ==null){
+        console.error("unable to detect tool length")
         return
        }
        postToolLength({
         toolid:toolNumber,
         toollength: offset
        })
+       console.log("posted length")
 
     }
 }
@@ -57,21 +59,25 @@ function getToolOffsetNumbers(inputString:string) {
     let toolNumber = null;
     let offset = null;
 
+    console.log("parts", parts    )
     // Loop through the parts of the string
     for (let i = 0; i < parts.length; i++) {
         const part = parts[i];
+        console.log("checking part", part, "i", i)
         // Check if the current part is 'TO'
         if (part === 'TO' && i + 1 < parts.length) {
             // Get the number after 'TO'
-            toolNumber = parseFloat(parts[i + 1]);
+            console.log("part1", parts[i + 1])
+            toolNumber = parseInt(parts[i + 1]);
         }
         // Check if the current part is a number
-        else if (!isNaN(parseFloat(part)) && i-1 == parts.length) {
+        else if (!isNaN(parseFloat(part)) && i+1 == parts.length) {
             // Update the last number found
-            toolNumber = parseFloat(part);
+            offset = parseFloat(part);
         }
     }
 
+    console.log({toolNumber, offset})
     return {
         toolNumber,
         offset
