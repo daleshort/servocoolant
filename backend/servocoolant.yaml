@@ -1,6 +1,6 @@
 version: "1"
 devicemanager:
-  toolchangepin: 13 #pin sensing tool changer movement (BCM pin #)
+  toolchangepin: 13 #pin sensing to ol changer movement (BCM pin #)
   servo1pin: 18 #pwm controling servo  (BCM pin #)
   servo2pin: 19
   servo:
