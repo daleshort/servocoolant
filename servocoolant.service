@@ -1,0 +1,20 @@
+[Unit]
+Description=Servocoolant Go Service
+ConditionPathExists=/home/dale/servocoolant/backend
+After=network.target
+[Service]
+Type=simple
+WorkingDirectory=/home/dale/servocoolant/backend
+ExecStart=/home/dale/servocoolant/backend/servocoolant
+Restart=on-failure
+RestartSec=10
+[Install]
+WantedBy=multi-user.target
+
+
+
+
+
+
+
+

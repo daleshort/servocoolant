@@ -1,0 +1,23 @@
+#!/bin/bash
+
+set -u
+set -e
+set -x
+
+. $HOME/.nvm/nvm.sh
+
+GIT_WORK_TREE=/home/dale/servocoolant git checkout -f
+cd /home/dale/servocoolant/backend
+/usr/local/go/bin/go get .
+export CC=aarch64-linux-gnu-gcc
+GOARCH=arm64 GOOS=linux CGO_ENABLED=1 GOMODCACHE=/home/dale/go/pkg/mod /usr/local/go/bin/go build -o servocoolant
+chmod +x start.sh
+cd ../servofrontend
+npm install --force
+npm run build
+
+sudo systemctl restart servocoolant.service
+echo "push script complete"
+
+
+

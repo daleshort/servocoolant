@@ -18,6 +18,7 @@ type AutoManager struct {
 	ToolQueue                []int
 	programStart             time.Time
 	IsProgramRunning         bool
+	IsEndRequested			bool
 	autoToolsenseEventChan   chan bool
 }
 
@@ -30,6 +31,7 @@ func GetAutoManager(log *log.Logger, config *config.Config, deviceManager *devic
 		CurrentToolQueuePosition: 0,
 		ToolQueue:                make([]int,0),
 		IsProgramRunning:         false,
+		IsEndRequested:           false,
 		autoToolsenseEventChan:   make(chan bool),
 	}
 	a.init()
@@ -135,4 +137,5 @@ func (a *AutoManager) AdvanceToolQueuePosition() {
 	a.log.Debug(fmt.Sprintf("tool queue advanced to %v", a.CurrentToolQueuePosition))
 	//activate the tool. ie. set the servos to the correct angle
 	a.activateCurrentTool()
+	a.CheckShouldProgramEnd()
 }

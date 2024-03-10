@@ -45,11 +45,11 @@ func (a *AutoManager) activateCurrentTool() {
 
 func (a *AutoManager) HandleSetToolQueueToPosition(position int) error {
 
-	if(position >= len(a.ToolQueue)){
+	if position >= len(a.ToolQueue) {
 		return fmt.Errorf("position %v is greater than queue", position)
 	}
 
-	if(position < 0){
+	if position < 0 {
 		return fmt.Errorf("position %v is invalid", position)
 	}
 
@@ -58,17 +58,27 @@ func (a *AutoManager) HandleSetToolQueueToPosition(position int) error {
 	return nil
 }
 
+func (a *AutoManager) CheckShouldProgramEnd(){
+	//if at end of tool queue and end has been requested
+	if a.CurrentToolQueuePosition == len(a.ToolQueue) -1  && a.IsEndRequested{
+		a.ResetToolQueue()
+   		a.ResetToolQueuePosition()
+		a.IsProgramRunning = false
+		a.IsEndRequested = false
+	}
+}
+
 func (a *AutoManager) HandleEndOfProgramEvent() {
 
-	a.ResetToolQueue()
-	a.ResetToolQueuePosition()
-	a.IsProgramRunning = false
+	a.IsEndRequested = true
+	a.CheckShouldProgramEnd()
 }
 
 func (a *AutoManager) HandleProgramStartEvent() {
 	a.HandleEndOfProgramEvent() // force program end to be sure
 	a.programStart = time.Now()
 	a.IsProgramRunning = true
+	a.IsEndRequested = false
 
 }
 
