@@ -31,12 +31,19 @@ func (c *Config) init() {
 	c.Viper.SetConfigName("servocoolant")
 	c.Viper.SetConfigType("yaml")
 	c.Viper.AddConfigPath(".")
-	c.Viper.WatchConfig()
+	
 
 	err := viper.ReadInConfig()
 	if err != nil {
-		panic(fmt.Errorf("fatal error config file: %w", err))
+		panic(fmt.Errorf("fatal error main servocoolant config file: %w", err))
 	}
+
+
+	c.Viper.SetConfigName("user")
+	c.Viper.SetConfigType("yaml")
+	c.Viper.AddConfigPath(".")
+
+	viper.MergeInConfig()
 
 }
 
