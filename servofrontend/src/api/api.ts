@@ -4,6 +4,7 @@ import { axiosPublic } from "./axios";
 export type StatusResponse = {
   servostatus: ServoStatus;
   istoolsensehigh: boolean;
+  isprobesensehigh: boolean;
   tools: ToolStatus;
   toolqueue: Array<number>;
   isprogramrunning: boolean;

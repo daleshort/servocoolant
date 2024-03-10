@@ -17,8 +17,8 @@ devicemanager:
   servo1offset: 0 #when an angle is specified this is added to account for orientation of servo
   servo2offset: 0 #when an angle is specified this is added to account for orientation of servo
 automanager:
-  quadrantoffset: 90 #Assume servo  angle 0 is straight up then evey tool angle is between 90 and 180 degrees.
-  0offsetangle: 135 #what angle is good for tool length 0
+  quadrantoffset: 0 #Assume servo  angle 0 is straight up then evey tool angle is between 90 and 180 degrees.
+  0offsetangle: 45 #what angle is good for tool length 0
   offsetstandoff: 2 #how far back the nozzle is mounted (used to inform angle calculations)
   programstartignoretime: 5 #how long to ignore tool change signals for after program start
   istooladvanceonhigh: true

@@ -17,6 +17,7 @@ type DeviceManager struct {
 	Servo2                 *servomanager.ServoManager
 	toolSensePin           rpio.Pin
 	IsToolsenseHigh        bool
+	IsProbesenseHigh		bool
 	probeSensePin          rpio.Pin
 	probeWritePin          rpio.Pin
 	AutoToolsenseEventChan *chan bool
@@ -86,6 +87,8 @@ func (d *DeviceManager) monitorProbeSensePin() {
 
 	currentState := d.probeSensePin.Read()
 	lastState := currentState
+
+	
 	for {
 		time.Sleep(time.Millisecond * 10)
 		currentState = d.probeSensePin.Read()
@@ -95,8 +98,10 @@ func (d *DeviceManager) monitorProbeSensePin() {
 		}
 
 		if currentState == rpio.High {
+			d.IsProbesenseHigh  = true
 			d.probeWritePin.Write(rpio.Low)
 		} else {
+			d.IsProbesenseHigh  = false
 			d.probeWritePin.Write(rpio.High)
 		}
 	}

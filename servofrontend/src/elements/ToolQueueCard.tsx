@@ -15,6 +15,8 @@ export const ToolQueueCard = (): React.JSX.Element => {
     }
   };
 
+
+
   return (
     <Card>
       <Card.Header as="h5">Tool Queue {getSpinner()}</Card.Header>
@@ -25,6 +27,9 @@ export const ToolQueueCard = (): React.JSX.Element => {
         <ListGroup.Item>
           <AutoSettings />
           <SerialPort />
+        </ListGroup.Item>
+        <ListGroup.Item>
+         probe sense high?: { status?.isprobesensehigh}
         </ListGroup.Item>
       </ListGroup>
     </Card>
