@@ -31,6 +31,8 @@ type ServoManager struct {
 	WiggleAmplitude int
 	WiggleFrequency float32
 	wiggleTime      time.Time
+	SoftLimitMin    int
+	SoftLimitMax    int
 }
 
 func GetServoManager(log *logrus.Logger, config *config.Config, id int) *ServoManager {
@@ -49,6 +51,14 @@ func GetServoManager(log *logrus.Logger, config *config.Config, id int) *ServoMa
 
 	if !config.Viper.IsSet("devicemanager.servo.travelrange") {
 		log.Error("cannot find key devicemanager.servo.travelrange")
+	}
+
+	if !config.Viper.IsSet("devicemanager.servo.softlimitmin") {
+		log.Error("cannot find key devicemanager.servo.softlimitmin")
+	}
+
+	if !config.Viper.IsSet("devicemanager.servo.softlimitmax") {
+		log.Error("cannot find key devicemanager.servo.softlimitmax")
 	}
 
 	var pinNumber int
@@ -90,6 +100,8 @@ func GetServoManager(log *logrus.Logger, config *config.Config, id int) *ServoMa
 		IsAuto:          true,
 		WiggleAmplitude: 0,
 		WiggleFrequency: 0,
+		SoftLimitMin:    config.Viper.GetInt("devicemanager.servo.softlimitmin"),
+		SoftLimitMax:    config.Viper.GetInt("devicemanager.servo.softlimitmax"),
 	}
 }
 
@@ -105,7 +117,7 @@ func (s *ServoManager) Init() {
 	s.pin.Freq(s.config.Viper.GetInt("devicemanager.servo.clockfreq"))
 	rpio.StartPwm()
 
-	s.SetAngle(0)
+	s.SetAngle( s.SoftLimitMin)
 	go s.maintainServoAngle()
 }
 
@@ -178,9 +190,15 @@ func (s *ServoManager) moveServoToAngle(angle float64) {
 
 func (s *ServoManager) SetAngle(angle int) error {
 	if angle > s.TravelRange-s.Offset || angle < 0-s.Offset {
-		s.log.Error(fmt.Sprintf("invalid angle specified: %v", angle))
-		return fmt.Errorf("invalid angle specified: %v", angle)
+		s.log.Error(fmt.Sprintf("invalid angle specified exceeds travel range: %v", angle))
+		return fmt.Errorf("invalid angle specified  exceeds travel range: %v", angle)
 	}
+
+	if angle > s.SoftLimitMax || angle < s.SoftLimitMin {
+		s.log.Error(fmt.Sprintf("invalid angle specified exceeds soft limits: %v", angle))
+		return fmt.Errorf("invalid angle specified exceeds soft limits: %v", angle)
+	}
+
 
 	s.Angle = angle
 	return nil

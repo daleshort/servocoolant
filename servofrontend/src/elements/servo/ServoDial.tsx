@@ -18,7 +18,7 @@ export const ServoDial = ({
   const getMinRange = () => {
     const s = getServoStatus();
     if (s) {
-      return -1 * s.offset;
+      return  s.softlimitmin;
     }
 
     return 0;
@@ -27,7 +27,7 @@ export const ServoDial = ({
   const getMaxRange = () => {
     const s = getServoStatus();
     if (s) {
-      return s.travelrange - s.offset;
+      return s.softlimitmax;
     }
 
     return 100;

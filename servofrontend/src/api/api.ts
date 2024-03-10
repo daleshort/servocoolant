@@ -29,6 +29,8 @@ export type ServoDetailStatus = {
   frequency: number;
   travelrange: number;
   offset: number;
+  softlimitmin: number;
+  softlimitmax: number;
 };
 
 export type ServoNumber = 1 | 2;

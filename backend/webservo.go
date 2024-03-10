@@ -11,13 +11,15 @@ type ServoStatusResponse struct {
 }
 
 type ServoDetailStatusResponse struct {
-	Angle       int     `json:"angle" example:"100"`
-	IsAuto      bool    `json:"isauto" example:"true"`
-	IsWiggle    bool    `json:"iswiggle" example:"true"`
-	Amplitude   int     `json:"amplitude" example:"10"`
-	Frequency   float32 `json:"frequency" example:".5"`
-	TravelRange int     `json:"travelrange" example:"265"`
-	Offset      int     `json:"offset" example:"20"`
+	Angle        int     `json:"angle" example:"100"`
+	IsAuto       bool    `json:"isauto" example:"true"`
+	IsWiggle     bool    `json:"iswiggle" example:"true"`
+	Amplitude    int     `json:"amplitude" example:"10"`
+	Frequency    float32 `json:"frequency" example:".5"`
+	TravelRange  int     `json:"travelrange" example:"265"`
+	Offset       int     `json:"offset" example:"20"`
+	SoftLimitMin int     `json:"softlimitmin" example:"0"`
+	SoftLimitMax int     `json:"softlimitmax" example:"100"`
 }
 
 type ServoPostRequest struct {
@@ -142,6 +144,8 @@ func (sc *ServoCoolant) getServoStatus() map[int]ServoDetailStatusResponse {
 			Frequency:   sc.deviceManager.Servo1.WiggleFrequency,
 			TravelRange: sc.deviceManager.Servo1.TravelRange,
 			Offset:      sc.deviceManager.Servo1.Offset,
+			SoftLimitMin: sc.deviceManager.Servo1.SoftLimitMin,
+			SoftLimitMax: sc.deviceManager.Servo1.SoftLimitMax,
 		},
 		2: ServoDetailStatusResponse{
 			Angle:       sc.deviceManager.Servo2.Angle,
@@ -151,6 +155,8 @@ func (sc *ServoCoolant) getServoStatus() map[int]ServoDetailStatusResponse {
 			Frequency:   sc.deviceManager.Servo2.WiggleFrequency,
 			TravelRange: sc.deviceManager.Servo2.TravelRange,
 			Offset:      sc.deviceManager.Servo2.Offset,
+			SoftLimitMin: sc.deviceManager.Servo2.SoftLimitMin,
+			SoftLimitMax: sc.deviceManager.Servo2.SoftLimitMax,
 		},
 	}
 }

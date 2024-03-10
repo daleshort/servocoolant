@@ -38,10 +38,10 @@ func (sc *ServoCoolant) Run() {
 	// length, _ := sc.config.GetToolLength(12)
 	// sc.log.Info(fmt.Sprintf("getting tool length 12: %v", *length))
 
-	sc.config.SetToolLength(12, 2.123)
-	sc.autoManager.CalculateAngleForToolLength(2)
-	sc.config.SetToolLength(14, 2.123)
-	sc.autoManager.CalculateAngleForToolLength(12)
+	// sc.config.SetToolLength(12, 2.123)
+	// sc.autoManager.CalculateAngleForToolLength(2)
+	// sc.config.SetToolLength(14, 2.123)
+	// sc.autoManager.CalculateAngleForToolLength(12)
 
 
 	// length, _ = sc.config.GetToolLength(12)
