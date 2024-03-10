@@ -12,13 +12,13 @@ devicemanager:
     maxduty: 500 #how many clock cycles represent max servo travel
     travelrange: 260 #how many degres of travel are between minduty and max duty
     cyclelength: 4000 #how many clock cycles to a servo clock period
-    softlimitmin: 20 #sets a lower bound to what the servo can be set to
-    softlimitmax: 180 #max angle that the servo can be set to
+    softlimitmin: 0 #sets a lower bound to what the servo can be set to
+    softlimitmax: 100 #max angle that the servo can be set to
   servo1offset: 0 #when an angle is specified this is added to account for orientation of servo
   servo2offset: 0 #when an angle is specified this is added to account for orientation of servo
 automanager:
   quadrantoffset: 0 #Assume servo  angle 0 is straight up then evey tool angle is between 90 and 180 degrees.
   0offsetangle: 45 #what angle is good for tool length 0
-  offsetstandoff: 2 #how far back the nozzle is mounted (used to inform angle calculations)
+  offsetstandoff: 4 #inches how far back the nozzle is mounted (used to inform angle calculations)
   programstartignoretime: 5 #how long to ignore tool change signals for after program start
   istooladvanceonhigh: true
