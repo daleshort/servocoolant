@@ -29,7 +29,7 @@ export const ToolQueueCard = (): React.JSX.Element => {
           <SerialPort />
         </ListGroup.Item>
         <ListGroup.Item>
-         probe sense high?: { status?.isprobesensehigh}
+         probe sense: { status?.isprobesensehigh? "high": "low"}
         </ListGroup.Item>
       </ListGroup>
     </Card>
