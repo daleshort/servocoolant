@@ -15,8 +15,10 @@ type DeviceManager struct {
 	config                 *config.Config
 	Servo1                 *servomanager.ServoManager
 	Servo2                 *servomanager.ServoManager
-	sensePin               rpio.Pin
+	toolSensePin           rpio.Pin
 	IsToolsenseHigh        bool
+	probeSensePin          rpio.Pin
+	probeWritePin          rpio.Pin
 	AutoToolsenseEventChan *chan bool
 }
 
@@ -47,30 +49,73 @@ func (d *DeviceManager) init() {
 	}
 	pinToolChanger := d.config.Viper.GetInt("devicemanager.toolchangepin")
 
-	d.sensePin = rpio.Pin(pinToolChanger)
-	d.sensePin.PullDown()
-	// rpio.PinMode(pin, rpio.Input)
-	// rpio.PullMode(pin, rpio.PullDown)
-	d.sensePin.Input()
+	d.toolSensePin = rpio.Pin(pinToolChanger)
+	d.toolSensePin.PullDown()
+	d.toolSensePin.Input()
 
 	d.Servo1.Init()
 	d.Servo2.Init()
-	go d.monitorSensePin()
+	go d.monitorToolSensePin()
 }
 
-func (d *DeviceManager) isStateHigh() bool {
+func (d *DeviceManager) initProbeInvert() {
+	if !d.config.Viper.GetBool("devicemanager.probeinvert") {
+		return
+	}
 
-	return d.sensePin.Read() == rpio.High
+	if !d.config.Viper.IsSet("devicemanager.probesensepin") {
+		d.log.Error("cannot find key devicemanager.probesensepin")
+		return
+	}
+	if !d.config.Viper.IsSet("devicemanager.probewritepin") {
+		d.log.Error("cannot find key devicemanager.probewritepin")
+		return
+	}
+
+	d.probeSensePin = rpio.Pin(d.config.Viper.GetInt("devicemanager.probesensepin"))
+	d.probeSensePin.Input()
+
+	d.probeWritePin = rpio.Pin(d.config.Viper.GetInt("devicemanager.probewritepin"))
+	d.probeWritePin.Output()
+
+	go d.monitorProbeSensePin()
 
 }
-func (d *DeviceManager) monitorSensePin() {
 
-	d.IsToolsenseHigh = d.isStateHigh()
+func (d *DeviceManager) monitorProbeSensePin() {
+
+	currentState := d.probeSensePin.Read()
+	lastState := currentState
+	for {
+		time.Sleep(time.Millisecond * 10)
+		currentState = d.probeSensePin.Read()
+		if(currentState != lastState){
+			d.log.Debug(fmt.Sprintf("probe state read change to %v", currentState))
+			lastState = currentState
+		}
+
+		if currentState == rpio.High {
+			d.probeWritePin.Write(rpio.Low)
+		} else {
+			d.probeWritePin.Write(rpio.High)
+		}
+	}
+
+}
+
+func (d *DeviceManager) isToolStateHigh() bool {
+
+	return d.toolSensePin.Read() == rpio.High
+
+}
+func (d *DeviceManager) monitorToolSensePin() {
+
+	d.IsToolsenseHigh = d.isToolStateHigh()
 	lastRead := d.IsToolsenseHigh
 	currentRead := d.IsToolsenseHigh
 	for {
 		time.Sleep(time.Millisecond * 10)
-		currentRead = d.isStateHigh()
+		currentRead = d.isToolStateHigh()
 		if currentRead != lastRead {
 			//do nothing
 		} else {
@@ -92,7 +137,7 @@ func (d *DeviceManager) RunRangeTest() {
 	d.log.Debug("start range of motion test")
 	for i := 0; i < 4; i++ {
 
-		res := d.sensePin.Read()
+		res := d.toolSensePin.Read()
 
 		d.log.Debug(fmt.Sprintf("pin is %v", res))
 
@@ -100,7 +145,7 @@ func (d *DeviceManager) RunRangeTest() {
 		d.Servo2.SetMaxDuty()
 
 		time.Sleep(time.Millisecond * 2000)
-		res = d.sensePin.Read()
+		res = d.toolSensePin.Read()
 
 		d.log.Debug(fmt.Sprintf("pin is %v", res))
 		d.Servo1.SetMaxDuty()
@@ -119,7 +164,7 @@ func (d *DeviceManager) RunAngleTest() {
 	d.log.Debug("start angle test")
 	for i := 0; i < 4; i++ {
 
-		res := d.sensePin.Read()
+		res := d.toolSensePin.Read()
 
 		d.log.Debug(fmt.Sprintf("pin is %v", res))
 
