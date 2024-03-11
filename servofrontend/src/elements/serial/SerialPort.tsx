@@ -23,7 +23,7 @@ export const SerialPort = (): React.JSX.Element => {
         while (true) { 
           const { value, done } = await reader.read();
           if (done) {
-            // Allow the serial port to be closed later.
+            // Allow the serial port to be closed later .
             reader.releaseLock();
             break;
           }
