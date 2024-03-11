@@ -19,6 +19,6 @@ devicemanager:
 automanager:
   quadrantoffset: 0 #Assume servo  angle 0 is straight up then evey tool angle is between 90 and 180 degrees.
   0offsetangle: 45 #what angle is good for tool length 0
-  offsetstandoff: 4 #inches how far back the nozzle is mounted (used to inform angle calculations)
+  offsetstandoff: 7 #inches how far back the nozzle is mounted (used to inform angle calculations)
   programstartignoretime: 5 #how long to ignore tool change signals for after program start
   istooladvanceonhigh: true
