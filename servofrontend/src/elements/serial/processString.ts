@@ -20,6 +20,8 @@ export const processString = (s:string)=>{
         })
         console.log("posted tool", toolNumber)
     }else if(s.includes("TO")){
+
+        
         console.log("tool offset detected", s)
 
        const { toolNumber, offset} =   getToolOffsetNumbers(s)

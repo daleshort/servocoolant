@@ -108,7 +108,7 @@ export const getProgramEnd = async (): Promise<number | Error> => {
 export const postToolLength = async (
   request: ToolLengthRequest
 ): Promise<Error | ResponseOk> => {
-  const url = "auto/toolqueueadd";
+  const url = "/toollength";
 
   try {
     await axiosPublic.post(url, request);

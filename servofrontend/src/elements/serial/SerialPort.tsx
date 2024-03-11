@@ -35,9 +35,11 @@ export const SerialPort = (): React.JSX.Element => {
               if(c == "\n"){
                 processString(readString)
                 readString = ""
-              } else if (c !=='\r'){
+              } else if (c =='\r' || c =='\x00' ){
+                //BALEET
+              } else{
                 readString += c
-              } 
+              }
             }
             
      
