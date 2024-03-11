@@ -2,6 +2,8 @@ import { Button } from "react-bootstrap";
 import { processString } from "./processString";
 
 export const SerialPort = (): React.JSX.Element => {
+
+
   const openSerialPort = async () => {
     if (!("serial" in navigator)) {
       return;
@@ -15,6 +17,8 @@ export const SerialPort = (): React.JSX.Element => {
       const reader = port.readable.getReader();
 
       try {
+        let readString = ""
+
         // eslint-disable-next-line no-constant-condition
         while (true) { 
           const { value, done } = await reader.read();
@@ -26,7 +30,17 @@ export const SerialPort = (): React.JSX.Element => {
           if (value) {
 
             const string = new TextDecoder().decode(value);
-            processString(string)
+            
+            for(const c of string){
+              if(c == "\n"){
+                processString(readString)
+                readString = ""
+              } else{
+                readString += c
+              } 
+            }
+            
+     
             
           }
         }

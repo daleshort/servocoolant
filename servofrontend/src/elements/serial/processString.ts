@@ -32,7 +32,10 @@ export const processString = (s:string)=>{
         toolid:toolNumber,
         toollength: offset
        })
-       console.log("posted length")
+       console.log("posted length", {
+        toolid:toolNumber,
+        toollength: offset
+       })
 
     }
 }
