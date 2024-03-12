@@ -87,6 +87,7 @@ func (d *DeviceManager) monitorProbeSensePin() {
 
 	currentState := d.probeSensePin.Read()
 	lastState := currentState
+	d.log.Debug(fmt.Sprintf("probe state read %v", currentState))
 
 	
 	for {
