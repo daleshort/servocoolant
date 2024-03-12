@@ -2,7 +2,7 @@ version: "1"
 devicemanager:
   toolchangepin: 13 #pin sensing to ol changer movement (BCM pin #)
   probeinvert: true #flag for having the pi invert a touch probe input (specific to my machine)
-  probesensepin: 23 #pin for sensing touch probe (specific to my machine)
+  probesensepin: 4 #pin for sensing touch probe (specific to my machine)
   probewritepin: 24 #pin for writing the touch probe signal inverser (specific to my machine)
   servo1pin: 18 #pwm controling servo  (BCM pin #)
   servo2pin: 19
