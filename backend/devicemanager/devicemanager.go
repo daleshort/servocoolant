@@ -57,6 +57,7 @@ func (d *DeviceManager) init() {
 	d.Servo1.Init()
 	d.Servo2.Init()
 	go d.monitorToolSensePin()
+	d.initProbeInvert()
 }
 
 func (d *DeviceManager) initProbeInvert() {
