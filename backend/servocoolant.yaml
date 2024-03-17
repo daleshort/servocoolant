@@ -14,7 +14,7 @@ devicemanager:
     cyclelength: 4000 #how many clock cycles to a servo clock period
     softlimitmin: 0 #sets a lower bound to what the servo can be set to
     softlimitmax: 100 #max angle that the servo can be set to
-  servo1offset: 0 #when an angle is specified this is added to account for orientation of servo
+  servo1offset: 10 #when an angle is specified this is added to account for orientation of servo
   servo2offset: 0 #when an angle is specified this is added to account for orientation of servo
 automanager:
   quadrantoffset: 0 #Assume servo  angle 0 is straight up then evey tool angle is between 90 and 180 degrees.
