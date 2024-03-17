@@ -3,6 +3,7 @@ package automanager
 import (
 	"fmt"
 	"time"
+	log "github.com/sirupsen/logrus"
 )
 
 func (a *AutoManager) ActivateToolLength(toolId int) error {
@@ -60,6 +61,13 @@ func (a *AutoManager) HandleSetToolQueueToPosition(position int) error {
 
 func (a *AutoManager) CheckShouldProgramEnd(){
 	//if at end of tool queue and end has been requested
+
+	a.log.WithFields(log.Fields{
+		"current tool queue position": a.CurrentToolQueuePosition,
+		"len tool queue":  len(a.ToolQueue),
+		"isEndRequested":     a.IsEndRequested,
+	}).Debug("http request")
+	
 	if a.CurrentToolQueuePosition == len(a.ToolQueue) -1  && a.IsEndRequested{
 		a.ResetToolQueue()
    		a.ResetToolQueuePosition()
@@ -71,6 +79,7 @@ func (a *AutoManager) CheckShouldProgramEnd(){
 func (a *AutoManager) HandleEndOfProgramEvent() {
 
 	a.IsEndRequested = true
+	a.log.Debug("isEndRequested set to true")
 	a.CheckShouldProgramEnd()
 }
 
